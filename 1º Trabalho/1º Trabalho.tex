@@ -1,0 +1,207 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuges]{babel}
+\usepackage{csquotes}
+\usepackage{geometry}
+\usepackage[pdftex]{hyperref}
+\usepackage{indentfirst}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newtheorem{definition}{Definição}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{example}{Exemplo}
+
+\usepackage[backend = biber]{biblatex}
+\addbibresource{primeiro_trabalho.bib}
+
+\geometry{left = 3cm, top = 3cm, bottom = 2cm, right = 2cm}
+
+\title{Inferência Estatística \\ 1º Trabalho}
+\author{Igor Patrício Michels}
+\date{19/08/2020}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introdução}
+
+Trabalho elaborado pelo aluno Igor Patrício Michels referente a disciplina de Inferência Estatística, do quarto período da Graduação em Matemática Aplicada da FGV-EMAp. Nele enunciaremos e provaremos o Método Delta, além de visitarmos um exemplo de sua aplicação.
+
+O enunciado e eventuais funções utilizadas para resolução deste ou de outros trabalhos podem ser encontrados \href{https://github.com/IgorMichels/Statistical_Inference}{\textbf{nesse repositório do GitHub}}. Já o presente relatório em \LaTeX{} pode ser encontrado \href{https://www.overleaf.com/read/sdfnbcnthrms}{\textbf{nesse link}}.
+
+\section*{Teorema de Taylor}
+
+Antes de demonstrarmos o Método Delta, iremos enunciar e provar o Teorema de Taylor, o qual será utilizado durante a demonstração do método. A demonstração, bem como a definição do Polinômio de Taylor de uma função $f$ será feita seguindo uma ideia similar a Elon (vide \cite{elon}, capítulo 9).
+
+\begin{definition}
+    Seja $f : I \to \mathbb{R}$ e $n$ vezes diferenciável no ponto $a \in I$. O Polinômio de Taylor de ordem $n$ de uma função $f$ no ponto $a$ é o polinômio $p(x) = c_0 + c_1(x - a) + \dots + c_n(x - a)^n$ de grau $\leq n$, cujas derivadas de grau menor ou igual a $n$ são iguais as respectivas derivadas de $f$ no ponto $a$, ou seja, vale que $f^{(i)}(a) = p^{(i)}(a), ~\forall i\leq n$.
+\end{definition}
+
+Considerando a definição acima, bem como que as derivadas do polinômio no ponto $a$ o definem por completo (lembrando que $p^(k)(a) = k!\cdot c_1$), podemos escrever o Polinômio de Taylor de uma função $f$ em torno do ponto $a$ como
+\[p(x) = \sum_{i = 0}^{n} \dfrac{f^{(i)}(a)\cdot (x - a)^i}{i!}.\]
+
+Sendo $p(x)$ o Polinômio de Taylor de ordem $n$ da função $f : I \to \mathbb{R}$ em torno de $a \in I$, então a função resto, definida por $r(x) = f(x) - p(x)$ na vizinhança de $a$ é $n$ vezes derivável no ponto $a$, uma vez que $f$ e $p$ são $n$ vezes deriváveis em tal ponto e, além disso, vale que $r^{(i)}(a) = 0, ~\forall i \leq n$.
+
+\begin{lemma}
+    Seja $r : J \to \mathbb{R}$ $n$ vezes derivável no ponto $a \in J$. A fim de que $r^{(i)}(a) = 0$ para $i = 0, 1, \dots, n$ é necessário e suficiente que
+    \[\lim_{x \to a} \dfrac{r(x)}{(x - a)^n} = 0.\]
+\end{lemma}
+
+\begin{proof}
+    Suponha que as derivadas de $r$ em $a$ sejam nulas até a ordem $n$. Para $n = 1$, isto significa que $r(a) = r'(a) = 0$, então
+    \[\lim_{x\to a} \dfrac{r(x)}{x - a} = \lim_{x\to a} \dfrac{r(x) - r(a)}{x - a} = r'(a) = 0.\]
+    
+    Para $n = 2$, temos que $r(a) = r'(a) = r''(a) = 0$. O Teorema do Valor Médio assegura que para todo $x \neq a$, existe algum $x_0 \in (a, x)$ de forma que
+    \[\dfrac{r(x)}{(x - a)^2} = \dfrac{r(x) - r(a)}{(x - a)^2} = r'(x_0)\cdot \dfrac{(x - a)}{(x - a)^2} = \dfrac{r'(x_0)}{x - a}.\]
+    
+    Dessa forma, temos que
+    \[\lim_{x\to a} \dfrac{r(x)}{(x - a)^2} = \lim_{x \to a} \dfrac{r'(x_0)}{x - a} = \lim_{x\to a} \dfrac{r'(x_0)}{x_0}\cdot \dfrac{x_0}{(x - a)},\]
+    
+    mas quando $x\to a$, temos que $x_0 \to a$ e $\left|\dfrac{x_0 - a}{x - a}\right| \leq 1$, logo, o limite acima é $0$. Com argumentos análogos, podemos passar de $n = 2$ a $n = 3$, depois de $n = 3$ a $n = 4$ e assim por diante.
+    
+    Agora, suponha que
+    \[\lim_{x\to a} \dfrac{r(x)}{(x - a)^n} = 0.\]
+    
+    Então temos que para $i = 0, 1, \dots, n$ que
+    \[\lim_{x\to a} \dfrac{r(x)}{(x - a)^i} = \lim_{x\to a} \dfrac{r(x)}{(x - a)^n}(x - a)^{n - i} = 0.\]
+    
+    Assim
+    \[r(a) = \lim_{x\to a} r(x) = \lim_{x\to a} \dfrac{r(x)}{(x - a)^0} = 0\]
+    
+    e também
+    \[r'(a) = \lim_{x\to a} \dfrac{r(x)}{x - a} = 0.\]
+    
+    Para $r''(a)$ vamos considerar a função auxiliar $\varphi : J \to \mathbb{R}$, definida por
+    \[\varphi(x) = r(x) - \dfrac{r''(a)\cdot (x - a)^2}{2}.\]
+    
+    Pela definição acima, podemos ver que facilmente que $\varphi(a) = \varphi'(a) = \varphi''(a) = 0$. Pela parte já demonstrada do lema, vale que
+    \begin{equation}
+        \lim_{x\to a} \dfrac{\varphi(x)}{(x - a)^2} = 0.
+        \label{equation1}
+    \end{equation}
+    
+    Como temos que
+    \[\dfrac{\varphi(x)}{(x - a)^2} = \dfrac{r(x)}{(x - a)^2} - \dfrac{r''(a)}{2},\]
+    
+    podemos utilizar (\ref{equation1}) e obtemos que $r''(a) = 0$. Com argumentos análogos podemos passar de $n = 2$ para $n = 3$ e assim por diante.
+\end{proof}
+
+Provado o Lema, podemos enunciar e demonstrar a Expansão de Taylor.
+
+\begin{theorem}[Fórmula de Taylor infinitesimal.]
+    Seja $f : I\to \mathbb{R}$ $n$ vezes derivável no ponto $a\in I$. A função $r : I \to \mathbb{R}$ definida pela igualdade
+    \[f(x) = f(a) + f'(a)\cdot (x - a) + \dfrac{f''(a)}{2}\cdot (x - a)^2 + \dots + \dfrac{f^{(n)}}{n!}\cdot (x - a)^n + r(x),\]
+    
+    cumpre $\lim_{x\to a} \dfrac{r(x)}{(x - a)^n} = 0$.
+    
+    \noindent Reciprocamente, se $p(x)$ é um polinômio de grau menor ou igual a $n$ tal que $r(x) = f(x) - p(x)$ cumpre $\lim_{x\to a} \dfrac{r(x)}{(x - a)^n} = 0$ então temos que $p(x)$ é o Polinômio de Taylor de ordem $n$ de $f$ em torno de $a$, ou seja,
+    \[p(x) = \sum_{i = 0}^{n} \dfrac{f^{(i)}(a)}{i!}\cdot (x - a)^i.\]
+\end{theorem}
+
+\begin{proof}
+    A função $r$, definida pela fórmula de Taylor, é $n$ vezes derivável no ponto $a$ e tem derivadas nulas nesse ponto até a ordem $n$. Assim, pelo Lema provado anteriormente, vale que
+    \[\lim_{x\to a} \dfrac{r(x)}{(x - a)^n} = 0.\]
+    
+    Agora, se $r(x) = f(x) - p(x)$ cumpre $\lim_{x\to a} \dfrac{r(x)}{(x - a)^n} = 0$ então temos, pelo Lema, que $r^{(i)}(a) = 0$ para $i = 0, 1, \dots, n$, ou seja, vale que $p^{(i)}(a) = f^{(i)}(a)$ para $i = 0, 1, \dots, n$. Mas essa é justamente a definição do polinômio de Taylor de ordem $n$ de $f$ em torno de $a$.
+\end{proof}
+
+Dessa forma, podemos concluir que o Polinômio de Taylor aproxima uma função $f$, derivável, em torno de um ponto $a$ de forma que o erro tende a zero mais rápido que $x - a$ tende a zero quando $x\to a$, com $x$ numa vizinhança de $a$.
+
+\section*{O Método Delta}
+
+Algumas vezes estamos interessados em estimar funções de variáveis aleatórias, entretanto nem sempre podemos encontrar um estimador explícito para tais variáveis. Dessa forma, o método Delta nos permite, sob certas condições, encontrarmos uma distribuição assintótica aproximada para funções de variáveis aleatórias, o que acaba sendo muito utilizado em estatística. Dessa forma, conhecer esse método, bem como entender qual a ideia por trás do mesmo é de tamanha importância para estatísticos e também para estudantes de estatística, dessa forma, temos o enunciado e demonstração do método Delta abaixo, os quais foram baseados nos livros de George Casella e de Morris H. DeGroot (veja \cite{casella} e \cite{degroot}).
+
+\subsection*{Enunciado e Prova do Método Delta}
+
+\begin{theorem}[Método Delta]
+    Seja $\{Y_n\}_{n\in \mathbb{N}}$ uma sequência de variáveis aleatórias e $F$ uma função de densidade acumulada contínua. Seja $\theta \in \mathbb{R}$ e tome $\{a_n\}_{n\in \mathbb{N}}$ uma sequência de números reais positivos de forma que $a_n \to \infty$ quando $n \to \infty$. Suponha que $a_n(Y_n - \theta)$ converge para $F$. Assuma uma função $\alpha$ de classe $\mathcal{C}^1$ tal que $\alpha'(\theta)\neq 0$. Então,
+    \[\dfrac{a_n[\alpha(Y_n) - \alpha(\theta)]}{\alpha'(\theta)}\]
+    
+    \noindent converge para a distribuição $F$.
+\end{theorem}
+
+\begin{proof}
+    Como $a_n \to \infty$, devemos ter, obrigatoriamente, que $Y_n \to \theta$ conforme $n\to \infty$. Caso contrário, isto é, $Y_n \not \to \theta$, vale que $|a_n(Y_n - \theta)| \to \infty$ com probabilidade não nula e, consequentemente, a função de densidade acumulada de $a_n(Y_n - \theta)$ não converge, indo contra a hipótese enunciada.
+    
+    \noindent Como $\alpha$ é de classe $\mathcal{C}^1$ e como $Y_n \to \theta$, devemos ter que $\alpha(Y_n) \to \alpha(\theta)$. Aplicando a Expansão de Taylor em torno de $\theta$, temos, com uma aproximação de primeira ordem, que
+    \[\alpha(Y_n) = \alpha(\theta) + \alpha'(\theta)\cdot (Y_n - \theta) + r(Y_n),\]
+    
+    \noindent com $r(Y_n) \to 0$ quando $Y_n \to \theta$. Assim, podemos desenvolver a expressão acima como
+    \begin{equation*}
+        \begin{split}
+            \alpha(Y_n) & = \alpha(\theta) + \alpha'(\theta)\cdot (Y_n - \theta) + r(Y_n) \\
+            \alpha(Y_n) - \alpha(\theta) & = \alpha'(\theta)\cdot (Y_n - \theta) + r(Y_n) \\
+            \dfrac{a_n}{\alpha'(\theta)}\left[\alpha(Y_n) - \alpha(\theta)\right] & = \dfrac{a_n}{\alpha'(\theta)}\alpha'(\theta)\cdot (Y_n - \theta) + r(Y_n) \\
+            \dfrac{a_n[\alpha(Y_n) - \alpha(\theta)]}{\alpha'(\theta)} & = a_n\cdot (Y_n - \theta) + r(Y_n).
+        \end{split}
+    \end{equation*}
+    
+    \noindent Logo, vale que
+    \[\dfrac{a_n[\alpha(Y_n) - \alpha(\theta)]}{\alpha'(\theta)} \approx a_n\cdot (Y_n - \theta),\]
+    
+    \noindent o que implica que o lado esquerdo tem, aproximadamente, a mesma distribuição que o lado direito. Mas note que, por hipótese, $a_n(Y_n - \theta)$ converge para a distribuição $F$, dessa forma, temos $\dfrac{a_n[\alpha(Y_n) - \alpha(\theta)]}{\alpha'(\theta)}$ também converge para a distribuição $F$, o que finaliza a demonstração do Teorema.
+\end{proof}
+
+\subsection*{Aplicabilidade}
+
+Conforme visto anteriormente, o Método Delta busca encontrar a distribuição assintótica de uma amostra aleatória obtida. Tal método pode ser aplicado sempre que os dados obtidos estiverem de acordo com as hipóteses do Teorema provado acima, ou seja, não podemos aplicar esse método em uma função $\alpha$ que não seja derivável, pois isso não nos garante que $\alpha'(\theta)$ existe. Além disso, aplicar sabendo apenas que $\alpha$ é derivável também não nos garante que o método irá funcionar, pois, por exemplo, podemos tomar $\alpha = x^2$ e $\theta = 0$. Note que, nesse caso, $\alpha'(\theta) = 0$ e temos que $\dfrac{a_n\cdot Y_n^2}{0}$ deve convergir para $F$, mas a expressão nem está definida, uma vez que estamos dividindo por zero. Outro caso em que não podemos usar a ideia demonstrada acima é quando $Y_n \not \to \theta$, uma vez que isso não nos garante que $\alpha(Y_n)$ possa ser aproximado pelo Polinômio de Taylor de $\alpha$ em torno de $\theta$, ou seja, não podemos afirmar que $\alpha(Y_n) \approx \alpha(\theta) + \alpha'(\theta)\cdot (Y_n - \theta)$. Um outro exemplo de quando o método não funciona é quando a sequência $\{Y_n\}_{n \in \mathbb{N}}$ não converge, pois nesse caso não conseguimos encontrar um $\theta$ de forma que $Y_n \to \theta$.
+
+Agora, quando temos todas as hipóteses do teorema sendo respeitadas, podemos ver que o método funciona pela própria demonstração do mesmo, ou seja, $a_n \to \infty$ nos obriga a tomarmos um $\theta$ de forma que $Y_n \to \theta$, pois caso contrário não haveria convergência na expressão $a_n(Y_n - \theta)$. Além disso, necessitamos de uma função $\alpha$ de classe $\mathcal{C}^1$ para podermos fazer a aproximação pelo Polinômio de Taylor, aproximação esta que vai nos levar a aproximação final, logo, garantir a existência de $\alpha'$ é essencial, mas não é só isso, conformo comentado acima, $\alpha'$ não pode ser nula em $\theta$, uma vez que isso não geraria uma aproximação muito boa, mas, principalmente, pelo fato de que o termo $Y_n - \theta$ irá se anular ao ser multiplicado por $\alpha'(\theta)$, de forma que a única informação de convergência que tínhamos será perdida. 
+
+Para ilustrar a ideia do Método Delta iremos fazer um exemplo de sua aplicação.
+
+\begin{example}
+    Suponha que observamos $n$ variáveis aleatórias Bernoulli independentes e identicamente distribuídas com parâmetro $p$, denotadas por $X_1$, $X_2$, $\dots$, $X_n$. Suponha que estamos interessados no parâmetro $w = \frac{p}{p - 1}$, geralmente chamado de \textit{chance} (em inglês, \textit{odds}). É natural utilizar o estimador \textit{plug-in} $\hat{w} = \frac{\hat{p}}{1 - \hat{p}}$, com $\hat{p} = \frac{1}{n}\sum_{i = 1}^{n} X_i$. Utilize o método Delta para encontrar uma aproximação para a variância de $\hat{w}$.
+\end{example}
+
+Para encontrar a variância de $\hat{w}$ podemos relacionar o Teorema Central do Limite com o Teorema provado anteriormente. Assim, tomamos
+\[Y_k = \dfrac{1}{k}\sum_{i = 1}^{k} X_i = \overline{X}_k = \hat{p}_k, ~a_k = \sqrt{k}, ~\theta = p \mbox{ e } ~\alpha(x) = \dfrac{x}{1 - x}.\]
+
+Note que, pelo Teorema Central do Limite, vale
+\[\sqrt{n}(X_n - \mu) \to N(0, \sigma^2),\]
+
+dessa forma, temos que
+\[a_k(Y_k - \theta) = \sqrt{k}(\hat{p}_k - p) \to N(0, \sigma^2),\]
+
+sendo $\sigma^2$ a variância de $\hat{p}_k$, isto é
+\[\sigma^2 = \dfrac{p(1 - p)}{k}.\]
+
+Pelo Método Delta, vale que 
+\[\dfrac{a_k[\alpha(Y_k) - \alpha(\theta)]}{\alpha'(\theta)} \approx a_k\cdot (Y_k - \theta),\]
+
+sendo que as duas expressões acima convergem para $F$. Assim, podemos reescrever
+\[a_k[\alpha(Y_k) - \alpha(\theta)] \approx \alpha'(\theta)\cdot a_k\cdot (Y_k - \theta).\]
+
+Substituindo os valores pelo que definimos acima, temos
+\[\sqrt{k}[\alpha(\hat{p}_k) - \alpha(p)] \approx \alpha'(p)\cdot \sqrt{k}\cdot (\hat{p}_k - p).\]
+
+Note que $\alpha(\hat{p}_k)$ é uma variável aleatória e $\alpha(p)$ é sua média, assim, no lado esquerdo temos uma expressão utilizando a variável aleatória gerada por $\alpha$ e na direita temos uma expressão similar a que vimos antes e que sabemos para onde converge, assim
+\[\alpha'(p)\cdot \sqrt{k}\cdot (\hat{p}_k - p) \to \alpha'(p)\cdot N(0, \sigma^2) = N(0, (\alpha'(p))^2\cdot \sigma^2).\]
+
+Dessa forma, vale que
+\[\sqrt{k}[\alpha(\hat{p}_k) - \alpha(p)] \to N(0, (\alpha'(p))^2\cdot \sigma^2),\]
+
+Ou seja, podemos concluir que
+\[Var(\hat{w}) \approx (\alpha'(p))^2\cdot \sigma^2 = \left(\dfrac{1}{(1 - p)^2}\right)^2\left(\dfrac{p(1 - p)}{n}\right) = \dfrac{p}{n(1 - p)^3}.\]
+
+\subsection*{Aplicação no dia-a-dia}
+
+Nas seções anteriores vimos o Método Delta e como o mesmo funciona, entretanto não foi comentado sobre sua importância ou como podemos utilizar tal ideia durante uma investigação. Assim, o intuito dessa seção é citar alguns exemplos onde tal método pôde ser explorado.
+
+Em um trabalho sobre a aplicação do modelo logístico em análises epidemiológicas, Oliveira, Santana e Lopes utilizaram o Método Delta para estimar variâncias e, com essas em mãos, estimar um intervalo de confiança para as razões de prevalência (veja \cite{OLIVEIRA1997}).
+
+Um outro exemplo interessante é dado por Powell (veja \cite{10.1093/condor/109.4.949}), onde são apresentados cinco exemplos de como estimar a variância de parâmetros demográficos em situações comuns encontradas por ecologistas aviários, os quais muitas vezes acabam sem ter conhecimento do Método Delta mesmo após a pós-graduação. No artigo, Powell descreve as etapas de como podemos utilizar o Método e chegar a estimativa desejada.
+
+\section*{Conclusão}
+
+Nesse trabalho vimos o enunciado e demonstração do Método Delta, bem como um exemplo de sua aplicação e, por fim, algumas aplicações práticas do método.
+
+Mesmo se tratando de uma ideia simples e intuitiva, o método não deixa de ser importante pois mostra ser um ferramental interessante para aproximar distribuições e variâncias de parâmetros, como visto na seção anterior. Dessa forma, podemos ver que a importância do Método Delta se mostra dá pelo fato de que, com hipóteses relativamente fracas, podemos obter, de forma simples, informações importantes sobre uma distribuição ou parâmetro de interesse, mesmo que esses sejam complexos.
+
+\printbibliography
+
+\end{document}
