@@ -1,0 +1,119 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuges]{babel}
+\usepackage{csquotes}
+\usepackage{geometry}
+\usepackage[pdftex]{hyperref}
+\usepackage{indentfirst}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multicol}
+
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{xcolor}
+\pgfplotsset{compat = 1.16}
+\pgfmathdeclarefunction{gauss}{2}{\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}}
+
+\newtheorem{definition}{Definição}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{example}{Exemplo}
+
+\usepackage[backend = biber]{biblatex}
+\addbibresource{terceiro_trabalho.bib}
+
+\geometry{left = 3cm, top = 3cm, bottom = 2cm, right = 2cm}
+
+\title{Inferência Estatística \\ 3º Trabalho}
+\author{Igor Patrício Michels}
+\date{21/10/2020}
+
+\begin{document}
+	
+	\maketitle
+	
+	\section*{Introdução}
+	
+	Trabalho elaborado pelo aluno Igor Patrício Michels referente a disciplina de Inferência Estatística, do quarto período da Graduação em Matemática Aplicada da FGV-EMAp. Nele faremos uma análise bayesiana da distribuição normal.
+	
+	O enunciado e eventuais funções utilizadas para resolução deste ou de outros trabalhos podem ser encontrados \href{https://github.com/IgorMichels/Statistical_Inference}{\textbf{nesse repositório do GitHub}}. Já o presente relatório em \LaTeX{} pode ser encontrado \href{https://www.overleaf.com/read/sdfnbcnthrms}{\textbf{nesse link}}.
+	
+	\section*{Uma Análise Bayesiana no Caso Normal}
+	
+	\subsection*{Precisão}
+	
+	Antes de começar nossa análise vamos definir o termo precisão, bem como dar uma pequena intuição de seu significado.
+	
+	\begin{definition}
+		Seja $\sigma^2$ a variância de uma distribuição. O parâmetro $\tau = \left(\sigma^2\right)^{-1}$ é chamado de precisão.
+	\end{definition}
+	
+	Note que a precisão é definida como o recíproco da variância, uma medida de dispersão dos dados. Assim, se possuímos uma variância baixa afirmar ver que os valores tenderam a estarem próximos da média da distribuição. Já se a variância é alta os valores poderão estar mais espalhados ao redor da média, como ilustrado na figura \ref{gaussianas}.
+	\begin{figure}[H]
+		\begin{tikzpicture}
+		\begin{axis}[no markers, domain = 0:10, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper, axis on top]
+		\addplot [fill = cyan!20, draw = none, domain = -3:3] {gauss(0,1)} \closedcycle;
+		\addplot [fill = orange!20, draw = none, domain = -3:-2] {gauss(0,1)} \closedcycle;
+		\addplot [fill = orange!20, draw = none, domain = 2:3] {gauss(0,1)} \closedcycle;
+		\addplot [fill = blue!20, draw = none, domain = -2:-1] {gauss(0,1)} \closedcycle;
+		\addplot [fill = blue!20, draw = none, domain = 1:2] {gauss(0,1)} \closedcycle;
+		\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+		\begin{axis}[no markers, domain = 0:10, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper, axis on top]
+		\addplot [fill = cyan!20, draw = none, domain = -6:6] {gauss(0,2)} \closedcycle;
+		\addplot [fill = orange!20, draw = none, domain = -6:-4] {gauss(0,2)} \closedcycle;
+		\addplot [fill = orange!20, draw = none, domain = 4:6] {gauss(0,2)} \closedcycle;
+		\addplot [fill = blue!20, draw = none, domain = -4:-2] {gauss(0,2)} \closedcycle;
+		\addplot [fill = blue!20, draw = none, domain = 2:4] {gauss(0,2)} \closedcycle;
+		\end{axis}
+		\end{tikzpicture}
+		\caption{à esquerda temos a plotagem de uma $\mathcal{N}(0, 1^2)$, já à direita a plotagem de uma $\mathcal{N}(0, 2^2)$.}
+		\label{gaussianas}
+	\end{figure}
+	
+	Note que na figura \ref{gaussianas} ambas as p.d.f.'s são iguais, com exceção a escala, a qual foi modificada em virtude da mudança na variância. Esse detalhe nos possibilita perceber a regra 68-95-99.7\footnote{A regra 68-95-99.7 é a propriedade de que aproximadamente 68\% dos valores estão a menos de um desvio padrão da média da normal, bem como 95\% e 99.7\% estão a uma distância inferior a dois e três desvios padrão, respectivamente.} da normal, além de reforçar a ideia de que, quanto maior a variância, maior a dispersão dos valores em torno da média.\footnote{Aqui poderíamos apenas citar a regra 96-95-99.7, entretanto a plotagem da distribuição da normal facilita o entendimento, uma vez que a forma da curva permanece a mesma, mas a escala do eixo $x$ aumenta.}
+	
+	Dessa forma, a precisão pode ser considerada uma medida de proximidade dos dados, pois a precisão é definida como o recíproco da variância. Assim, quando temos uma variância baixa os valores se encontram perto da média e a precisão é alta, já quando a variância é grande os valores estão mais dispersos e a precisão é menor.
+	
+	Definida a ideia de precisão podemos nos perguntar qual a utilidade da mesma além de ser uma métrica como citado anteriormente. Podemos responder a essa dúvida mostrando qual a função de densidade de probabilidade de uma variável com distribuição normal em cada uma das parametrizações:
+	\[X \sim \mathcal{N}(\mu, \sigma^2) \longrightarrow f_X(x) = \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{-\dfrac{1}{2}\left(\dfrac{x - \mu}{\sigma}\right)^2}\]
+	\[X \sim \mathcal{N}_2(\mu, \tau) \longrightarrow f_X(x) = \sqrt{\dfrac{\tau}{2\pi}}\exp{-\dfrac{1}{2}\tau(x - \mu)^2},\]
+	
+	onde $\mathcal{N}_2$ representa a normal parametrizada com a média e precisão. Já para uma distribuição conjunta temos as seguintes parametrizações:
+	\begin{itemize}
+		\item
+		se $X_1, \dots, X_n \sim \mathcal{N}(\mu, \sigma^2)$:
+		\begin{equation*}
+		\begin{split}
+		f_X(x_1, \dots, x_n) & = \prod_{i = 1}^{n} \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2} \\
+		& = \left(\dfrac{1}{\sqrt{2\pi \sigma^2}}\right)^n \prod_{i = 1}^{n} \exp{-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2} \\
+		& = \left(\sqrt{2\pi \sigma^2}\right)^{-\frac{n}{2}} \exp{-\dfrac{1}{2\sigma^2}\sum_{i = 1}^{n}\left(x_i - \mu\right)^2} \\
+		\end{split}
+		\end{equation*}
+		
+		\item
+		se $X_1, \dots, X_n \sim \mathcal{N}(\mu, \tau)$:
+		\begin{equation*}
+		\begin{split}
+		f_X(x_1, \dots, x_n) & = \prod_{i = 1}^{n} \sqrt{\dfrac{\tau}{2\pi}}\exp{-\dfrac{1}{2}\tau(x_i - \mu)^2} \\
+		& = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \prod_{i = 1}^{n} \exp{-\dfrac{1}{2}\tau\left(x_i - \mu\right)^2} \\
+		& = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \exp{-\dfrac{1}{2}\tau\sum_{i = 1}^{n}\left(x_i - \mu\right)^2} \\
+		\end{split}
+		\end{equation*}
+	\end{itemize}
+	
+	Perceba que, nos dois casos, a segunda representação é mais amigável, uma vez que é mais fácil de manipular os parâmetros manualmente pois não ocorrem divisões por um parâmetro, o que pode ser complicado. Além disso, com essa segunda representação podemos perceber facilmente pequenas variações \cite{stackexchange}.
+	
+	\section*{Conclusão}
+	
+	
+	
+	\printbibliography
+	
+\end{document}
