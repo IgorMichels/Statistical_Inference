@@ -82,33 +82,62 @@
 	Dessa forma, a precisão pode ser considerada uma medida de proximidade dos dados, pois a precisão é definida como o recíproco da variância. Assim, quando temos uma variância baixa os valores se encontram perto da média e a precisão é alta, já quando a variância é grande os valores estão mais dispersos e a precisão é menor.
 	
 	Definida a ideia de precisão podemos nos perguntar qual a utilidade da mesma além de ser uma métrica como citado anteriormente. Podemos responder a essa dúvida mostrando qual a função de densidade de probabilidade de uma variável com distribuição normal em cada uma das parametrizações:
-	\[X \sim \mathcal{N}(\mu, \sigma^2) \longrightarrow f_X(x) = \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{-\dfrac{1}{2}\left(\dfrac{x - \mu}{\sigma}\right)^2}\]
-	\[X \sim \mathcal{N}_2(\mu, \tau) \longrightarrow f_X(x) = \sqrt{\dfrac{\tau}{2\pi}}\exp{-\dfrac{1}{2}\tau(x - \mu)^2},\]
+	\[X \sim \mathcal{N}(\mu, \sigma^2) \longrightarrow f_X(x | \mu, \tau) = \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{-\dfrac{1}{2}\left(\dfrac{x - \mu}{\sigma}\right)^2}\]
+	\[X \sim \mathcal{N}_2(\mu, \tau) \longrightarrow f_X(x | \mu, \tau) = \sqrt{\dfrac{\tau}{2\pi}}\exp{-\dfrac{1}{2}\tau(x - \mu)^2},\]
 	
 	onde $\mathcal{N}_2$ representa a normal parametrizada com a média e precisão. Já para uma distribuição conjunta temos as seguintes parametrizações:
 	\begin{itemize}
 		\item
 		se $X_1, \dots, X_n \sim \mathcal{N}(\mu, \sigma^2)$:
 		\begin{equation*}
-		\begin{split}
-		f_X(x_1, \dots, x_n) & = \prod_{i = 1}^{n} \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2} \\
-		& = \left(\dfrac{1}{\sqrt{2\pi \sigma^2}}\right)^n \prod_{i = 1}^{n} \exp{-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2} \\
-		& = \left(\sqrt{2\pi \sigma^2}\right)^{-\frac{n}{2}} \exp{-\dfrac{1}{2\sigma^2}\sum_{i = 1}^{n}\left(x_i - \mu\right)^2} \\
-		\end{split}
+			\begin{split}
+				f_X(x_1, \dots, x_n | \mu, \tau) & = \prod_{i = 1}^{n} \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2} \\
+				& = \left(\dfrac{1}{\sqrt{2\pi \sigma^2}}\right)^n \prod_{i = 1}^{n} \exp{-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2} \\
+				& = \left(\sqrt{2\pi \sigma^2}\right)^{-\frac{n}{2}} \exp{-\dfrac{1}{2\sigma^2}\sum_{i = 1}^{n}\left(x_i - \mu\right)^2} \\
+			\end{split}
 		\end{equation*}
 		
 		\item
-		se $X_1, \dots, X_n \sim \mathcal{N}(\mu, \tau)$:
-		\begin{equation*}
-		\begin{split}
-		f_X(x_1, \dots, x_n) & = \prod_{i = 1}^{n} \sqrt{\dfrac{\tau}{2\pi}}\exp{-\dfrac{1}{2}\tau(x_i - \mu)^2} \\
-		& = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \prod_{i = 1}^{n} \exp{-\dfrac{1}{2}\tau\left(x_i - \mu\right)^2} \\
-		& = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \exp{-\dfrac{1}{2}\tau\sum_{i = 1}^{n}\left(x_i - \mu\right)^2} \\
-		\end{split}
-		\end{equation*}
+		já se $X_1, \dots, X_n \sim \mathcal{N}_2(\mu, \tau)$:
+		\begin{equation}
+			\label{eq1}
+			\begin{split}
+				f_X(x_1, \dots, x_n | \mu, \tau) & = \prod_{i = 1}^{n} \sqrt{\dfrac{\tau}{2\pi}}\exp{-\dfrac{1}{2}\tau(x_i - \mu)^2} \\
+				& = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \prod_{i = 1}^{n} \exp{-\dfrac{1}{2}\tau\left(x_i - \mu\right)^2} \\
+				& = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \exp{-\dfrac{1}{2}\tau\sum_{i = 1}^{n}\left(x_i - \mu\right)^2} \\
+			\end{split}
+		\end{equation}
 	\end{itemize}
 	
 	Perceba que, nos dois casos, a segunda representação é mais amigável, uma vez que é mais fácil de manipular os parâmetros manualmente pois não ocorrem divisões por um parâmetro, o que pode ser complicado. Além disso, com essa segunda representação podemos perceber facilmente pequenas variações \cite{stackexchange}.
+	
+	\subsection*{Priori utilizando a Precisão}
+	
+	Dada a distribuição conjunta condicional dos dados em \ref{eq1}, podemos buscar uma distribuição a priori para $\mu$ e $\tau$. Assim como em \cite{ehlers} e \cite{ehlers2}, vamos reescrever $P(\mu, \tau) = P(\mu | \tau)\cdot P(\tau)$, dessa forma, vamos encontrar uma priori em duas etapas. Na primeira etapa, escrevemos
+	\[\mu | \tau \sim \mathcal{N}_2(m_0, \lambda_0 \tau).\]
+	
+	Já para a segunda etapa, note que o núcleo da distribuição em \ref{eq1} tem a mesma forma que o núcleo de uma distribuição Gama quando visto do ponto de vista de $\tau$, dessa forma, sabendo que a família Gama é conjugada, podemos tomar uma priori da família Gama para $\tau$ e, dessa forma, temos
+	\[\tau \sim \text{Gama}(\alpha_0, \beta_0),\]
+	
+	
+	
+	% \noindent onde $\alpha_0 = \dfrac{n_0}{2}$ e $\beta_0 = \dfrac{n_0 \sigma_0^2}{2}$.
+	
+	% Esse conjunto de duas prioris para a distribuição conjunta de $(\mu, \tau)$ leva o nome de Normal-Gama com parâmetros $(m_0, \lambda_0, n_0, \sigma_0^2)$. Assim, dadas as distribuições acima, temos que a densidade conjunta de $(\mu, \tau)$ é dada por
+	% \begin{equation*}
+	%     \begin{split}
+	%         P(\mu, \tau) & = P(\mu | \tau)\cdot P(\tau) \\
+	%         & \propto \sqrt{\tau} \exp{\left\{-\dfrac{\lambda_0 \tau}{2} (\mu - m_0)^2\right\}} \tau^{\frac{n_0}{2} - 1} \exp{\left\{-\dfrac{n_0 \sigma_0^2 \tau}{2}\right\}} \\
+	%         & = \tau^{\frac{n_0 - 1}{2}} \exp{\left\{-\dfrac{\tau}{2}\left(\lambda_0(\mu - m_0)^2 + n_0 \sigma_0^2 \right)\right\}}.
+	%     \end{split}
+	% \end{equation*}
+	
+	
+	
+	
+	
+	
+	
 	
 	\section*{Conclusão}
 	
