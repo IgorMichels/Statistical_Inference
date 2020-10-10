@@ -34,115 +34,200 @@
 \date{21/10/2020}
 
 \begin{document}
-	
-	\maketitle
-	
-	\section*{Introdução}
-	
-	Trabalho elaborado pelo aluno Igor Patrício Michels referente a disciplina de Inferência Estatística, do quarto período da Graduação em Matemática Aplicada da FGV-EMAp. Nele faremos uma análise bayesiana da distribuição normal.
-	
-	O enunciado e eventuais funções utilizadas para resolução deste ou de outros trabalhos podem ser encontrados \href{https://github.com/IgorMichels/Statistical_Inference}{\textbf{nesse repositório do GitHub}}. Já o presente relatório em \LaTeX{} pode ser encontrado \href{https://www.overleaf.com/read/sdfnbcnthrms}{\textbf{nesse link}}.
-	
-	\section*{Uma Análise Bayesiana no Caso Normal}
-	
-	\subsection*{Precisão}
-	
-	Antes de começar nossa análise vamos definir o termo precisão, bem como dar uma pequena intuição de seu significado.
-	
-	\begin{definition}
-		Seja $\sigma^2$ a variância de uma distribuição. O parâmetro $\tau = \left(\sigma^2\right)^{-1}$ é chamado de precisão.
-	\end{definition}
-	
-	Note que a precisão é definida como o recíproco da variância, uma medida de dispersão dos dados. Assim, se possuímos uma variância baixa afirmar ver que os valores tenderam a estarem próximos da média da distribuição. Já se a variância é alta os valores poderão estar mais espalhados ao redor da média, como ilustrado na figura \ref{gaussianas}.
-	\begin{figure}[H]
-		\begin{tikzpicture}
-		\begin{axis}[no markers, domain = 0:10, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper, axis on top]
-		\addplot [fill = cyan!20, draw = none, domain = -3:3] {gauss(0,1)} \closedcycle;
-		\addplot [fill = orange!20, draw = none, domain = -3:-2] {gauss(0,1)} \closedcycle;
-		\addplot [fill = orange!20, draw = none, domain = 2:3] {gauss(0,1)} \closedcycle;
-		\addplot [fill = blue!20, draw = none, domain = -2:-1] {gauss(0,1)} \closedcycle;
-		\addplot [fill = blue!20, draw = none, domain = 1:2] {gauss(0,1)} \closedcycle;
-		\end{axis}
-		\end{tikzpicture}
-		\begin{tikzpicture}
-		\begin{axis}[no markers, domain = 0:10, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper, axis on top]
-		\addplot [fill = cyan!20, draw = none, domain = -6:6] {gauss(0,2)} \closedcycle;
-		\addplot [fill = orange!20, draw = none, domain = -6:-4] {gauss(0,2)} \closedcycle;
-		\addplot [fill = orange!20, draw = none, domain = 4:6] {gauss(0,2)} \closedcycle;
-		\addplot [fill = blue!20, draw = none, domain = -4:-2] {gauss(0,2)} \closedcycle;
-		\addplot [fill = blue!20, draw = none, domain = 2:4] {gauss(0,2)} \closedcycle;
-		\end{axis}
-		\end{tikzpicture}
-		\caption{à esquerda temos a plotagem de uma $\mathcal{N}(0, 1^2)$, já à direita a plotagem de uma $\mathcal{N}(0, 2^2)$.}
-		\label{gaussianas}
-	\end{figure}
-	
-	Note que na figura \ref{gaussianas} ambas as p.d.f.'s são iguais, com exceção a escala, a qual foi modificada em virtude da mudança na variância. Esse detalhe nos possibilita perceber a regra 68-95-99.7\footnote{A regra 68-95-99.7 é a propriedade de que aproximadamente 68\% dos valores estão a menos de um desvio padrão da média da normal, bem como 95\% e 99.7\% estão a uma distância inferior a dois e três desvios padrão, respectivamente.} da normal, além de reforçar a ideia de que, quanto maior a variância, maior a dispersão dos valores em torno da média.\footnote{Aqui poderíamos apenas citar a regra 96-95-99.7, entretanto a plotagem da distribuição da normal facilita o entendimento, uma vez que a forma da curva permanece a mesma, mas a escala do eixo $x$ aumenta.}
-	
-	Dessa forma, a precisão pode ser considerada uma medida de proximidade dos dados, pois a precisão é definida como o recíproco da variância. Assim, quando temos uma variância baixa os valores se encontram perto da média e a precisão é alta, já quando a variância é grande os valores estão mais dispersos e a precisão é menor.
-	
-	Definida a ideia de precisão podemos nos perguntar qual a utilidade da mesma além de ser uma métrica como citado anteriormente. Podemos responder a essa dúvida mostrando qual a função de densidade de probabilidade de uma variável com distribuição normal em cada uma das parametrizações:
-	\[X \sim \mathcal{N}(\mu, \sigma^2) \longrightarrow f_X(x | \mu, \tau) = \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{-\dfrac{1}{2}\left(\dfrac{x - \mu}{\sigma}\right)^2}\]
-	\[X \sim \mathcal{N}_2(\mu, \tau) \longrightarrow f_X(x | \mu, \tau) = \sqrt{\dfrac{\tau}{2\pi}}\exp{-\dfrac{1}{2}\tau(x - \mu)^2},\]
-	
-	onde $\mathcal{N}_2$ representa a normal parametrizada com a média e precisão. Já para uma distribuição conjunta temos as seguintes parametrizações:
-	\begin{itemize}
-		\item
-		se $X_1, \dots, X_n \sim \mathcal{N}(\mu, \sigma^2)$:
-		\begin{equation*}
-			\begin{split}
-				f_X(x_1, \dots, x_n | \mu, \tau) & = \prod_{i = 1}^{n} \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2} \\
-				& = \left(\dfrac{1}{\sqrt{2\pi \sigma^2}}\right)^n \prod_{i = 1}^{n} \exp{-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2} \\
-				& = \left(\sqrt{2\pi \sigma^2}\right)^{-\frac{n}{2}} \exp{-\dfrac{1}{2\sigma^2}\sum_{i = 1}^{n}\left(x_i - \mu\right)^2} \\
-			\end{split}
-		\end{equation*}
-		
-		\item
-		já se $X_1, \dots, X_n \sim \mathcal{N}_2(\mu, \tau)$:
-		\begin{equation}
-			\label{eq1}
-			\begin{split}
-				f_X(x_1, \dots, x_n | \mu, \tau) & = \prod_{i = 1}^{n} \sqrt{\dfrac{\tau}{2\pi}}\exp{-\dfrac{1}{2}\tau(x_i - \mu)^2} \\
-				& = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \prod_{i = 1}^{n} \exp{-\dfrac{1}{2}\tau\left(x_i - \mu\right)^2} \\
-				& = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \exp{-\dfrac{1}{2}\tau\sum_{i = 1}^{n}\left(x_i - \mu\right)^2} \\
-			\end{split}
-		\end{equation}
-	\end{itemize}
-	
-	Perceba que, nos dois casos, a segunda representação é mais amigável, uma vez que é mais fácil de manipular os parâmetros manualmente pois não ocorrem divisões por um parâmetro, o que pode ser complicado. Além disso, com essa segunda representação podemos perceber facilmente pequenas variações \cite{stackexchange}.
-	
-	\subsection*{Priori utilizando a Precisão}
-	
-	Dada a distribuição conjunta condicional dos dados em \ref{eq1}, podemos buscar uma distribuição a priori para $\mu$ e $\tau$. Assim como em \cite{ehlers} e \cite{ehlers2}, vamos reescrever $P(\mu, \tau) = P(\mu | \tau)\cdot P(\tau)$, dessa forma, vamos encontrar uma priori em duas etapas. Na primeira etapa, escrevemos
-	\[\mu | \tau \sim \mathcal{N}_2(m_0, \lambda_0 \tau).\]
-	
-	Já para a segunda etapa, note que o núcleo da distribuição em \ref{eq1} tem a mesma forma que o núcleo de uma distribuição Gama quando visto do ponto de vista de $\tau$, dessa forma, sabendo que a família Gama é conjugada, podemos tomar uma priori da família Gama para $\tau$ e, dessa forma, temos
-	\[\tau \sim \text{Gama}(\alpha_0, \beta_0),\]
-	
-	
-	
-	% \noindent onde $\alpha_0 = \dfrac{n_0}{2}$ e $\beta_0 = \dfrac{n_0 \sigma_0^2}{2}$.
-	
-	% Esse conjunto de duas prioris para a distribuição conjunta de $(\mu, \tau)$ leva o nome de Normal-Gama com parâmetros $(m_0, \lambda_0, n_0, \sigma_0^2)$. Assim, dadas as distribuições acima, temos que a densidade conjunta de $(\mu, \tau)$ é dada por
-	% \begin{equation*}
-	%     \begin{split}
-	%         P(\mu, \tau) & = P(\mu | \tau)\cdot P(\tau) \\
-	%         & \propto \sqrt{\tau} \exp{\left\{-\dfrac{\lambda_0 \tau}{2} (\mu - m_0)^2\right\}} \tau^{\frac{n_0}{2} - 1} \exp{\left\{-\dfrac{n_0 \sigma_0^2 \tau}{2}\right\}} \\
-	%         & = \tau^{\frac{n_0 - 1}{2}} \exp{\left\{-\dfrac{\tau}{2}\left(\lambda_0(\mu - m_0)^2 + n_0 \sigma_0^2 \right)\right\}}.
-	%     \end{split}
-	% \end{equation*}
-	
-	
-	
-	
-	
-	
-	
-	
-	\section*{Conclusão}
-	
-	
-	
-	\printbibliography
-	
+
+\maketitle
+
+\section*{Introdução}
+
+Trabalho elaborado pelo aluno Igor Patrício Michels referente a disciplina de Inferência Estatística, do quarto período da Graduação em Matemática Aplicada da FGV-EMAp. Nele faremos uma análise bayesiana da distribuição normal.
+
+O enunciado e eventuais funções utilizadas para resolução deste ou de outros trabalhos podem ser encontrados \href{https://github.com/IgorMichels/Statistical_Inference}{\textbf{nesse repositório do GitHub}}. Já o presente relatório em \LaTeX{} pode ser encontrado \href{https://www.overleaf.com/read/sdfnbcnthrms}{\textbf{nesse link}}.
+
+\section*{Uma Análise Bayesiana no Caso Normal}
+
+\subsection*{Precisão}
+
+Antes de começar nossa análise vamos definir o termo precisão, bem como dar uma pequena intuição de seu significado.
+
+\begin{definition}
+    Seja $\sigma^2$ a variância de uma distribuição. O parâmetro $\tau = \left(\sigma^2\right)^{-1}$ é chamado de precisão.
+\end{definition}
+
+Note que a precisão é definida como o recíproco da variância, uma medida de dispersão dos dados. Assim, se possuímos uma variância baixa afirmar ver que os valores tenderam a estarem próximos da média da distribuição. Já se a variância é alta os valores poderão estar mais espalhados ao redor da média, como ilustrado na figura \ref{gaussianas}.
+\begin{figure}[H]
+    \begin{tikzpicture}
+        \begin{axis}[no markers, domain = 0:10, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper, axis on top]
+            \addplot [fill = cyan!20, draw = none, domain = -3:3] {gauss(0,1)} \closedcycle;
+            \addplot [fill = orange!20, draw = none, domain = -3:-2] {gauss(0,1)} \closedcycle;
+            \addplot [fill = orange!20, draw = none, domain = 2:3] {gauss(0,1)} \closedcycle;
+            \addplot [fill = blue!20, draw = none, domain = -2:-1] {gauss(0,1)} \closedcycle;
+            \addplot [fill = blue!20, draw = none, domain = 1:2] {gauss(0,1)} \closedcycle;
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[no markers, domain = 0:10, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper, axis on top]
+            \addplot [fill = cyan!20, draw = none, domain = -6:6] {gauss(0,2)} \closedcycle;
+            \addplot [fill = orange!20, draw = none, domain = -6:-4] {gauss(0,2)} \closedcycle;
+            \addplot [fill = orange!20, draw = none, domain = 4:6] {gauss(0,2)} \closedcycle;
+            \addplot [fill = blue!20, draw = none, domain = -4:-2] {gauss(0,2)} \closedcycle;
+            \addplot [fill = blue!20, draw = none, domain = 2:4] {gauss(0,2)} \closedcycle;
+        \end{axis}
+    \end{tikzpicture}
+    \caption{à esquerda temos a plotagem de uma $\mathcal{N}(0, 1^2)$, já à direita a plotagem de uma $\mathcal{N}(0, 2^2)$.}
+    \label{gaussianas}
+\end{figure}
+
+Note que na figura \ref{gaussianas} ambas as p.d.f.'s são iguais, com exceção a escala, a qual foi modificada em virtude da mudança na variância. Esse detalhe nos possibilita perceber a regra 68-95-99.7\footnote{A regra 68-95-99.7 é a propriedade de que aproximadamente 68\% dos valores estão a menos de um desvio padrão da média da normal, bem como 95\% e 99.7\% estão a uma distância inferior a dois e três desvios padrão, respectivamente.} da normal, além de reforçar a ideia de que, quanto maior a variância, maior a dispersão dos valores em torno da média.\footnote{Aqui poderíamos apenas citar a regra 96-95-99.7, entretanto a plotagem da distribuição da normal facilita o entendimento, uma vez que a forma da curva permanece a mesma, mas a escala do eixo $x$ aumenta.}
+
+Dessa forma, a precisão pode ser considerada uma medida de proximidade dos dados, pois a precisão é definida como o recíproco da variância. Assim, quando temos uma variância baixa os valores se encontram perto da média e a precisão é alta, já quando a variância é grande os valores estão mais dispersos e a precisão é menor.
+
+Definida a ideia de precisão podemos nos perguntar qual a utilidade da mesma além de ser uma métrica como citado anteriormente. Podemos responder a essa dúvida mostrando qual a função de densidade de probabilidade de uma variável com distribuição normal em cada uma das parametrizações:
+\[X \sim \mathcal{N}(\mu, \sigma^2) \longrightarrow f_X(x | \mu, \tau) = \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{\left[-\dfrac{1}{2}\left(\dfrac{x - \mu}{\sigma}\right)^2\right]}\]
+\[X \sim \mathcal{N}_2(\mu, \tau) \longrightarrow f_X(x | \mu, \tau) = \sqrt{\dfrac{\tau}{2\pi}}\exp{\left[-\dfrac{1}{2}\tau(x - \mu)^2\right]},\]
+
+\noindent onde $\mathcal{N}_2$ representa a normal parametrizada com a média e precisão. Já para uma distribuição conjunta temos as seguintes parametrizações:
+\begin{itemize}
+    \item
+        se $X_1, \dots, X_n \sim \mathcal{N}(\mu, \sigma^2)$:
+        \begin{equation*}
+            \begin{split}
+                f_X(x_1, \dots, x_n | \mu, \tau) & = \prod_{i = 1}^{n} \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{\left[-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2\right]} \\
+                & = \left(\dfrac{1}{\sqrt{2\pi \sigma^2}}\right)^n \prod_{i = 1}^{n} \exp{\left[-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2\right]} \\
+                & = \left(\sqrt{2\pi \sigma^2}\right)^{-\frac{n}{2}} \exp{\left[-\dfrac{1}{2\sigma^2}\sum_{i = 1}^{n}\left(x_i - \mu\right)^2\right]} \\
+            \end{split}
+        \end{equation*}
+        
+    \item
+        já se $X_1, \dots, X_n \sim \mathcal{N}_2(\mu, \tau)$:
+        \begin{equation}
+            \label{eq1}
+            \begin{split}
+                f_X(x_1, \dots, x_n | \mu, \tau) & = \prod_{i = 1}^{n} \sqrt{\dfrac{\tau}{2\pi}}\exp{\left[-\dfrac{1}{2}\tau(x_i - \mu)^2\right]} \\
+                & = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \prod_{i = 1}^{n} \exp{\left[-\dfrac{1}{2}\tau\left(x_i - \mu\right)^2\right]} \\
+                & = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \exp{\left[-\dfrac{1}{2}\tau\sum_{i = 1}^{n}\left(x_i - \mu\right)^2\right]} \\
+            \end{split}
+        \end{equation}
+\end{itemize}
+
+Perceba que, nos dois casos, a segunda representação é mais amigável, uma vez que é mais fácil de manipular os parâmetros manualmente pois não ocorrem divisões por um parâmetro, o que pode ser complicado. Além disso, com essa segunda representação podemos perceber facilmente pequenas variações \cite{stackexchange}.
+
+\subsection*{Inferência utilizando a Precisão}
+
+Dada a distribuição conjunta condicional dos dados em \ref{eq1}, podemos buscar uma distribuição a priori para $\mu$ e $\tau$. Assim como em \cite{ehlers} e \cite{ehlers2}, vamos reescrever $P(\mu, \tau) = P(\mu | \tau)\cdot P(\tau)$, dessa forma, vamos encontrar uma priori em duas etapas. Na primeira etapa, note que, dado $\tau$, a distribuição conjunta tem a forma de uma normal de média $\mu$, assim escrevemos
+\[\mu | \tau \sim \mathcal{N}_2(m_0, \lambda_0 \tau).\]
+
+Já para a segunda etapa, quando precisamos encontrar a priori de $\tau$, podemos notar que, do ponto de vista de $\tau$, o núcleo da distribuição em \ref{eq1} tem a mesma forma que o núcleo de uma distribuição Gama. Dessa forma, temos que
+\[\tau \sim \text{Gama}\left(\alpha_0, \beta_0\right).\]
+
+Para o cálculo da posteriori, podemos seguir uma ideia similar a que DeGroot fez em \cite{degroot}. Sejam $\xi_1$ e $\xi_2$ as prioris de $\mu | \tau$ e $\tau$, respectivamente. Assim, temos que
+\[\xi_1(\mu | \tau) \propto \sqrt{\tau} \exp{\left[-\dfrac{1}{2}\lambda_0 \tau (\mu - \mu_0)^2\right]} \text{ e que } \xi_2(\tau) \propto \tau^{\alpha_0 - 1} \exp{\left[- \beta_0 \tau\right]}.\]
+
+Dessa forma, a posteriori da distribuição conjunta deve satisfazer
+\begin{equation}
+    \label{post1}
+    \begin{split}
+        \xi(\mu, \tau | x_1, x_2, \dots, x_n) & \propto f_X(x_1, \dots, x_n | \mu, \tau) \xi_1(\mu | \tau) \xi_2(\tau) \\
+        & \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(\lambda_0 (\mu - \mu_0)^2 + \sum_{i = 1}^{n}\left(x_i - \mu\right)^2\right) - \beta_0 \tau\right]}.
+    \end{split}
+\end{equation}
+
+Agora, perceba que
+\begin{equation*}
+    \begin{split}
+        \sum_{i = 1}^{n} \left(x_i - \mu\right)^2 & = \sum_{i = 1}^{n} \left(x_i - \overline{x}_n + \overline{x}_n - \mu\right)^2 \\
+        & = \sum_{i = 1}^{n} \left[\left(x_i - \overline{x}_n\right)^2 + 2\left(x_i - \overline{x}_n\right)\left(\overline{x}_n - \mu\right) + \left(\overline{x}_n - \mu\right)^2\right] \\
+        & = \sum_{i = 1}^{n} \left(x_i - \overline{x}_n\right)^2 + \sum_{i = 1}^{n} 2\left(x_i - \overline{x}_n\right)\left(\overline{x}_n - \mu\right) + \sum_{i = 1}^{n} \left(\overline{x}_n - \mu\right)^2 \\
+        & = s_n^2 + 2\left(\overline{x}_n - \mu\right)\sum_{i = 1}^{n} \left(x_i - \overline{x}_n\right) + n\left(\overline{x}_n - \mu\right)^2 \\
+        & = s_n^2 + 2\left(\overline{x}_n - \mu\right)\cdot 0 + n\left(\overline{x}_n - \mu\right)^2 \\
+        & = s_n^2 + n\left(\overline{x}_n - \mu\right)^2.
+    \end{split}
+\end{equation*}
+
+Assim, podemos reescrever \ref{post1} como
+\begin{equation}
+    \label{post2}
+    \xi(\mu, \tau | x_1, x_2, \dots, x_n) \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(\lambda_0 (\mu - \mu_0)^2 + s_n^2 + n\left(\overline{x}_n - \mu\right)^2\right) - \beta_0 \tau\right]}.
+\end{equation}
+
+Note também que
+\begin{equation}
+    \label{ig}
+    \begin{split}
+        n\left(\overline{x}_n - \mu\right)^2 + \lambda_0\left(\mu - \mu_0\right)^2 & = n\overline{x}_n^2 - 2n\overline{x}_n\mu + n\mu^2 + \lambda_0\mu^2 - 2\lambda_0\mu\mu_0 + \lambda_0\mu_0^2 \\
+        & = (n + \lambda_0)\left(\mu^2 - \dfrac{2n\overline{x}_n\mu + 2\lambda_0\mu\mu_0}{n + \lambda_0} + \dfrac{\left(n + \lambda_0\right)\left(n\overline{x}_n^2 + \lambda_0\mu_0^2\right)}{\left(n + \lambda_0\right)^2}\right),
+    \end{split}
+\end{equation}
+
+\noindent desenvolvendo a última fração de \ref{ig} separadamente, temos
+\begin{equation*}
+    \begin{split}
+        \dfrac{\left(n + \lambda_0\right)\left(n\overline{x}_n^2 + \lambda_0\mu_0^2\right)}{\left(n + \lambda_0\right)^2} & = \dfrac{n^2\overline{x}_n^2 + n\lambda_0\mu_0^2 + n\lambda_0\overline{x}_n^2 + \lambda_0^2\mu_0^2}{\left(n + \lambda_0\right)^2} \\
+        & = \dfrac{\lambda_0^2\mu_0^2 + 2\mu_0\lambda_0n\overline{x}_n + n^2\overline{x}_n^2 + n\lambda_0\overline{x}_n^2 - 2\mu_0\lambda_0n\overline{x}_n + n\lambda_0\mu_0^2}{\left(n + \lambda_0\right)^2} \\
+        & = \dfrac{\left(\lambda_0^2\mu_0^2 + 2\mu_0\lambda_0n\overline{x}_n + n^2\overline{x}_n^2\right) + n\lambda_0 \left(\overline{x}_n^2 - 2\mu_0\overline{x}_n + \mu_0^2\right)}{\left(n + \lambda_0\right)^2} \\
+        & = \dfrac{\left(\lambda_0\mu_0 + n\overline{x}_n\right)^2 + n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{\left(n + \lambda_0\right)^2}.
+    \end{split}
+\end{equation*}
+
+Substituindo isso em \ref{ig}, temos
+\begin{equation*}
+    \begin{split}
+        n\left(\overline{x}_n - \mu\right)^2 + \lambda_0\left(\mu - \mu_0\right)^2 & = (n + \lambda_0)\left(\mu^2 - \dfrac{2n\overline{x}_n\mu + 2\lambda_0\mu\mu_0}{n + \lambda_0} + \dfrac{\left(\lambda_0\mu_0 + n\overline{x}_n\right)^2 +  n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{\left(n + \lambda_0\right)^2}\right) \\
+        & = (n + \lambda_0)\left(\mu^2 - \dfrac{2\mu \left(n\overline{x}_n + \lambda_0\mu_0\right)}{n + \lambda_0} + \dfrac{\left(\lambda_0\mu_0 + n\overline{x}_n\right)^2}{\left(n + \lambda_0\right)^2}\right) + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0} \\
+        & = (n + \lambda_0)\left(\mu - \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)^2 + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0}.
+    \end{split}
+\end{equation*}
+
+Dessa forma, substituindo o resultado acima em \ref{post2}, obtemos
+\begin{equation*}
+    \xi(\mu, \tau | x_1, x_2, \dots, x_n) \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(s_n^2 + (n + \lambda_0)\left(\mu - \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)^2 + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0}\right) - \beta_0 \tau\right]}.
+\end{equation*}
+
+Definindo
+\[\lambda_1 = \lambda_0 + n \text{, } \mu_1 = \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0} \text{, } \alpha_1 = \alpha_0 + \dfrac{n}{2} \text{ e } \beta_1 = \beta_0 + \dfrac{s_n^2}{2} + \dfrac{n\lambda_0\left(\overline{x}_n^2 - \mu_0\right)^2}{2\left(\lambda_0 + n\right)},\]
+
+\noindent podemos escrever o termo da exponencial como\footnote{Como os termos são muito grandes, estou manipulando os termos de uma linha para outra.}
+\[-\dfrac{\tau}{2}\left(s_n^2 + (n + \lambda_0)\left(\mu - \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)^2 + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0}\right) - \beta_0 \tau\]
+\[-\dfrac{1}{2}\left(\lambda_0 + n\right)\tau\left(\mu - \left(\dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)\right)^2 - \tau\left(\beta_0 + \dfrac{s_n^2}{2} + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{2\left(n + \lambda_0\right)}\right)\]
+\[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2 - \tau\beta_1.\]
+
+Já o expoente de $\tau$ pode ser escrito como
+\begin{equation*}
+    \begin{split}
+        \alpha_0 - 1 + \dfrac{n + 1}{2} & = \alpha_0 + \dfrac{n}{2} - 1 + \dfrac{1}{2} \\
+        & = \alpha_1 - 1 + \dfrac{1}{2}.
+    \end{split}
+\end{equation*}
+
+Dessa forma, temos
+
+\begin{equation*}
+    \begin{split}
+        \xi(\mu, \tau | x_1, x_2, \dots, x_n) & \propto \tau^{\alpha_1 - 1 + 1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2 -\beta_1\tau\right]} \\
+        & = \tau^{1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2\right]} \cdot \tau^{\alpha_1 - 1} \exp{\left[-\beta_1\tau\right]}.
+    \end{split}
+\end{equation*}
+
+Dessa forma, obtemos a distribuição conjunta a posteriori de $\mu$ e $\tau$. Além disso, o termo
+\[\tau^{1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2\right]},\]
+
+\noindent é, exceto por um fator que independe de $\mu$ e $\tau$, a distribuição a posteriori de $\mu | \tau$, sendo da forma Normal$_2$ com média $\mu_1$ e precisão $\lambda_1\tau$. Já o termo
+\[\tau^{\alpha_1 - 1} \exp{\left[-\beta_1\tau\right]}\]
+
+\noindent é, também exceto por um fator multiplicativo que independe de $\mu$ e $\tau$, a distribuição a posteriori de $\tau$. Note que essa distribuição é uma Gama de parâmetros $\alpha_1$ e $\beta_1$.
+
+Esse conjunto de prioris utilizadas acima para esse caso normal em que desconhecemos tanto a média quanto a precisão é conhecida como Distribuição Normal-Gama. Note que essa distribuição é fechada no cálculo da posteriori, ou seja, a posteriori tem a mesma distribuição.
+
+
+
+
+
+
+
+
+\section*{Conclusão}
+
+
+
+\printbibliography
+
 \end{document}
