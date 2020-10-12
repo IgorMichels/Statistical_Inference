@@ -82,8 +82,8 @@ Note que na figura \ref{gaussianas} ambas as p.d.f.'s são iguais, com exceção
 Dessa forma, a precisão pode ser considerada uma medida de proximidade dos dados, pois a precisão é definida como o recíproco da variância. Assim, quando temos uma variância baixa os valores se encontram perto da média e a precisão é alta, já quando a variância é grande os valores estão mais dispersos e a precisão é menor.
 
 Definida a ideia de precisão podemos nos perguntar qual a utilidade da mesma além de ser uma métrica como citado anteriormente. Podemos responder a essa dúvida mostrando qual a função de densidade de probabilidade de uma variável com distribuição normal em cada uma das parametrizações:
-\[X \sim \mathcal{N}(\mu, \sigma^2) \longrightarrow f_X(x | \mu, \tau) = \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{\left[-\dfrac{1}{2}\left(\dfrac{x - \mu}{\sigma}\right)^2\right]}\]
-\[X \sim \mathcal{N}_2(\mu, \tau) \longrightarrow f_X(x | \mu, \tau) = \sqrt{\dfrac{\tau}{2\pi}}\exp{\left[-\dfrac{1}{2}\tau(x - \mu)^2\right]},\]
+\[X \sim \mathcal{N}(\mu, \sigma^2) \longrightarrow f_X(x \mid \mu, \tau) = \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{\left[-\dfrac{1}{2}\left(\dfrac{x - \mu}{\sigma}\right)^2\right]}\]
+\[X \sim \mathcal{N}_2(\mu, \tau) \longrightarrow f_X(x \mid \mu, \tau) = \sqrt{\dfrac{\tau}{2\pi}}\exp{\left[-\dfrac{1}{2}\tau(x - \mu)^2\right]},\]
 
 \noindent onde $\mathcal{N}_2$ representa a normal parametrizada com a média e precisão. Já para uma distribuição conjunta temos as seguintes parametrizações:
 \begin{itemize}
@@ -91,7 +91,7 @@ Definida a ideia de precisão podemos nos perguntar qual a utilidade da mesma al
         se $X_1, \dots, X_n \sim \mathcal{N}(\mu, \sigma^2)$:
         \begin{equation*}
             \begin{split}
-                f_X(x_1, \dots, x_n | \mu, \tau) & = \prod_{i = 1}^{n} \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{\left[-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2\right]} \\
+                f_X(x_1, \dots, x_n \mid \mu, \tau) & = \prod_{i = 1}^{n} \dfrac{1}{\sqrt{2\pi \sigma^2}}\exp{\left[-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2\right]} \\
                 & = \left(\dfrac{1}{\sqrt{2\pi \sigma^2}}\right)^n \prod_{i = 1}^{n} \exp{\left[-\dfrac{1}{2}\left(\dfrac{x_i - \mu}{\sigma}\right)^2\right]} \\
                 & = \left(\sqrt{2\pi \sigma^2}\right)^{-\frac{n}{2}} \exp{\left[-\dfrac{1}{2\sigma^2}\sum_{i = 1}^{n}\left(x_i - \mu\right)^2\right]} \\
             \end{split}
@@ -102,7 +102,7 @@ Definida a ideia de precisão podemos nos perguntar qual a utilidade da mesma al
         \begin{equation}
             \label{eq1}
             \begin{split}
-                f_X(x_1, \dots, x_n | \mu, \tau) & = \prod_{i = 1}^{n} \sqrt{\dfrac{\tau}{2\pi}}\exp{\left[-\dfrac{1}{2}\tau(x_i - \mu)^2\right]} \\
+                f_X(x_1, \dots, x_n \mid \mu, \tau) & = \prod_{i = 1}^{n} \sqrt{\dfrac{\tau}{2\pi}}\exp{\left[-\dfrac{1}{2}\tau(x_i - \mu)^2\right]} \\
                 & = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \prod_{i = 1}^{n} \exp{\left[-\dfrac{1}{2}\tau\left(x_i - \mu\right)^2\right]} \\
                 & = \left(\sqrt{\dfrac{\tau}{2\pi}}\right)^n \exp{\left[-\dfrac{1}{2}\tau\sum_{i = 1}^{n}\left(x_i - \mu\right)^2\right]} \\
             \end{split}
@@ -113,20 +113,20 @@ Perceba que, nos dois casos, a segunda representação é mais amigável, uma ve
 
 \subsection*{Inferência utilizando a Precisão}
 
-Dada a distribuição conjunta condicional dos dados em \ref{eq1}, podemos buscar uma distribuição a priori para $\mu$ e $\tau$. Assim como em \cite{ehlers} e \cite{ehlers2}, vamos reescrever $P(\mu, \tau) = P(\mu | \tau)\cdot P(\tau)$, dessa forma, vamos encontrar uma priori em duas etapas. Na primeira etapa, note que, dado $\tau$, a distribuição conjunta tem a forma de uma normal de média $\mu$, assim escrevemos
-\[\mu | \tau \sim \mathcal{N}_2(m_0, \lambda_0 \tau).\]
+Dada a distribuição conjunta condicional dos dados em \ref{eq1}, podemos buscar uma distribuição a priori para $\mu$ e $\tau$. Assim como em \cite{ehlers} e \cite{ehlers2}, vamos reescrever $P(\mu, \tau) = P(\mu \mid \tau)\cdot P(\tau)$, dessa forma, vamos encontrar uma priori em duas etapas. Na primeira etapa, note que, dado $\tau$, a distribuição conjunta tem a forma de uma normal, assim escrevemos
+\[\mu \mid \tau \sim \mathcal{N}_2(\mu_0, \lambda_0 \tau).\]
 
 Já para a segunda etapa, quando precisamos encontrar a priori de $\tau$, podemos notar que, do ponto de vista de $\tau$, o núcleo da distribuição em \ref{eq1} tem a mesma forma que o núcleo de uma distribuição Gama. Dessa forma, temos que
 \[\tau \sim \text{Gama}\left(\alpha_0, \beta_0\right).\]
 
-Para o cálculo da posteriori, podemos seguir uma ideia similar a que DeGroot fez em \cite{degroot}. Sejam $\xi_1$ e $\xi_2$ as prioris de $\mu | \tau$ e $\tau$, respectivamente. Assim, temos que
-\[\xi_1(\mu | \tau) \propto \sqrt{\tau} \exp{\left[-\dfrac{1}{2}\lambda_0 \tau (\mu - \mu_0)^2\right]} \text{ e que } \xi_2(\tau) \propto \tau^{\alpha_0 - 1} \exp{\left[- \beta_0 \tau\right]}.\]
+Já para o cálculo da posteriori, podemos seguir uma ideia similar a que DeGroot fez em \cite{degroot}. Sejam $\xi_1$ e $\xi_2$ as prioris de $\mu \mid \tau$ e $\tau$, respectivamente. Assim, temos que
+\[\xi_1(\mu \mid \tau) \propto \sqrt{\tau} \exp{\left[-\dfrac{1}{2}\lambda_0 \tau (\mu - \mu_0)^2\right]} \text{ e que } \xi_2(\tau) \propto \tau^{\alpha_0 - 1} \exp{\left[- \beta_0 \tau\right]}.\]
 
 Dessa forma, a posteriori da distribuição conjunta deve satisfazer
 \begin{equation}
     \label{post1}
     \begin{split}
-        \xi(\mu, \tau | x_1, x_2, \dots, x_n) & \propto f_X(x_1, \dots, x_n | \mu, \tau) \xi_1(\mu | \tau) \xi_2(\tau) \\
+        \xi(\mu, \tau \mid x_1, x_2, \dots, x_n) & \propto f_X(x_1, \dots, x_n \mid \mu, \tau) \xi_1(\mu \mid \tau) \xi_2(\tau) \\
         & \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(\lambda_0 (\mu - \mu_0)^2 + \sum_{i = 1}^{n}\left(x_i - \mu\right)^2\right) - \beta_0 \tau\right]}.
     \end{split}
 \end{equation}
@@ -146,7 +146,7 @@ Agora, perceba que
 Assim, podemos reescrever \ref{post1} como
 \begin{equation}
     \label{post2}
-    \xi(\mu, \tau | x_1, x_2, \dots, x_n) \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(\lambda_0 (\mu - \mu_0)^2 + s_n^2 + n\left(\overline{x}_n - \mu\right)^2\right) - \beta_0 \tau\right]}.
+    \xi(\mu, \tau \mid x_1, x_2, \dots, x_n) \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(\lambda_0 (\mu - \mu_0)^2 + s_n^2 + n\left(\overline{x}_n - \mu\right)^2\right) - \beta_0 \tau\right]}.
 \end{equation}
 
 Note também que
@@ -179,7 +179,7 @@ Substituindo isso em \ref{ig}, temos
 
 Dessa forma, substituindo o resultado acima em \ref{post2}, obtemos
 \begin{equation*}
-    \xi(\mu, \tau | x_1, x_2, \dots, x_n) \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(s_n^2 + (n + \lambda_0)\left(\mu - \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)^2 + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0}\right) - \beta_0 \tau\right]}.
+    \xi(\mu, \tau \mid x_1, x_2, \dots, x_n) \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(s_n^2 + (n + \lambda_0)\left(\mu - \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)^2 + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0}\right) - \beta_0 \tau\right]}.
 \end{equation*}
 
 Definindo
@@ -202,29 +202,63 @@ Dessa forma, temos
 
 \begin{equation*}
     \begin{split}
-        \xi(\mu, \tau | x_1, x_2, \dots, x_n) & \propto \tau^{\alpha_1 - 1 + 1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2 -\beta_1\tau\right]} \\
+        \xi(\mu, \tau \mid x_1, x_2, \dots, x_n) & \propto \tau^{\alpha_1 - 1 + 1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2 -\beta_1\tau\right]} \\
         & = \tau^{1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2\right]} \cdot \tau^{\alpha_1 - 1} \exp{\left[-\beta_1\tau\right]}.
     \end{split}
 \end{equation*}
 
-Dessa forma, obtemos a distribuição conjunta a posteriori de $\mu$ e $\tau$. Além disso, o termo
+Assim, obtemos a distribuição conjunta a posteriori de $\mu$ e $\tau$. Além disso, o termo
 \[\tau^{1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2\right]},\]
 
-\noindent é, exceto por um fator que independe de $\mu$ e $\tau$, a distribuição a posteriori de $\mu | \tau$, sendo da forma Normal$_2$ com média $\mu_1$ e precisão $\lambda_1\tau$. Já o termo
+\noindent é, exceto por um fator que independe de $\mu$ e $\tau$, a distribuição a posteriori de $\mu \mid \tau$, sendo da forma Normal$_2$ com média $\mu_1$ e precisão $\lambda_1\tau$. Já o termo
 \[\tau^{\alpha_1 - 1} \exp{\left[-\beta_1\tau\right]}\]
 
 \noindent é, também exceto por um fator multiplicativo que independe de $\mu$ e $\tau$, a distribuição a posteriori de $\tau$. Note que essa distribuição é uma Gama de parâmetros $\alpha_1$ e $\beta_1$.
 
-Esse conjunto de prioris utilizadas acima para esse caso normal em que desconhecemos tanto a média quanto a precisão é conhecida como Distribuição Normal-Gama. Note que essa distribuição é fechada no cálculo da posteriori, ou seja, a posteriori tem a mesma distribuição.
+Esse conjunto de prioris utilizadas acima para esse caso normal em que desconhecemos tanto a média quanto a precisão é conhecida como Distribuição Normal-Gama. Note que essa distribuição é fechada no cálculo da posteriori, ou seja, a posteriori tem a mesma distribuição da priori. Já a distribuição marginal de $\mu$ a posteriori pode ser encontrada integrando o produto de $P(\tau)$ com $P(\mu \mid \tau)$ no domínio de $\tau$, isto é $\mathbb{R}_{>0}$. Fazendo isto, temos
+\begin{equation*}
+    \begin{split}
+        P(\mu) & = \int_{0}^{\infty} P(\mu \mid \tau) P(\tau) ~d\tau \\
+        & \propto \int_{0}^{\infty} \tau^{1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2\right]} \tau^{\alpha_1 - 1} \exp{\left[-\beta_1\tau\right]} ~d\tau \\
+        & \propto \int_{0}^{\infty} \tau^{\alpha_1 - 1 + 1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2 - \beta_1\tau\right]} ~d\tau \\
+        & \propto \left(\dfrac{2\beta_0 + \lambda_0 \left(\mu - \mu_0\right)^2}{2}\right)^{-\left(\alpha_0 + \frac{1}{2}\right)} \\
+        & \propto \left(1 + \dfrac{\left(\mu - \mu_0\right)^2}{\frac{2\beta_0}{\lambda_0}}\right)^{-\left(\alpha_0 + \frac{1}{2}\right)},
+    \end{split}
+\end{equation*}
+
+\noindent onde podemos ver que $\mu$ tem distribuição $t$ deslocada, isto é,
+\[X = \mu_0 + \dfrac{\beta_0}{\alpha_0 \lambda_0}T,\]
+
+\noindent com $T$ tendo distribuição $t$ de Student com $2\alpha_0$ graus de liberdade.
+
+% \begin{example}
+%     Palmirinha anda preocupada com a concentração de amido em sua pamonha.
+%     Ela pede para Valciclei, seu assistente, amostrar $n=10$ pamonhas e medir sua concentração de amido.
+    
+%     Ele, muito prestativo, rapidamente faz o experimento, mas, porque comeu todas as amostras depois que foram medidas, precisou fazer uma visita de emergência ao banheiro. 
+%     Desta feita, apenas teve tempo de anotar em um papel a média e variância amostrais, $\bar{x}_n =  8.307849$ e $\bar{s}^2_n = 7.930452$.
+    
+%     Palmirinha tem uma reunião com investidores em pouco tempo, então decide voltar aos seus tempos de bayesiana~\textit{old school} e analisar os dados utilizando prioris conjugadas.
+%     Ela supõe que a concentração de amido segue uma distribuição normal com parâmetros $\mu$ e $\tau$ e que as observações feitas por Valciclei são independentes entre si.
+%     Ela suspeita que a concentração de amido na pamonha fique em torno de $10$ mg/L, com desvio padrão de  $2$ mg/L.
+%     Com sua larga experiência na confecção de pamonhas, ela suspeita ainda que o coeficiente de variação da concentração de amido seja em torno de $1/2$.
+%     Palmirinha tem um quadro em seu escritório, que diz
+%     \[\operatorname{cv} = \frac{\sigma}{\mu}.\]
+    
+%     Agora, 
+%     \begin{enumerate}
+%         \item
+%             Com os dados anotados por Valciclei, é possível computar a distribuição~\textit{a posteriori} de $\mu$ e $\tau$? Justifique.
+            
+%         \item
+%             Em caso afirmativo, ajude Palmirinha a encontrar $a, b \in \mathbb{R}$, $a < b$ de modo que $\operatorname{Pr}(\mu \in (a, b) \mid \boldsymbol{x}) = 0.95$.
+%     \end{enumerate}
+% \end{example}
+
+% Em nosso exemplo...
 
 
-
-
-
-
-
-
-\section*{Conclusão}
+% \section*{Conclusão}
 
 
 
