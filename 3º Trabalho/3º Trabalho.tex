@@ -137,16 +137,16 @@ Agora, perceba que
         \sum_{i = 1}^{n} \left(x_i - \mu\right)^2 & = \sum_{i = 1}^{n} \left(x_i - \overline{x}_n + \overline{x}_n - \mu\right)^2 \\
         & = \sum_{i = 1}^{n} \left[\left(x_i - \overline{x}_n\right)^2 + 2\left(x_i - \overline{x}_n\right)\left(\overline{x}_n - \mu\right) + \left(\overline{x}_n - \mu\right)^2\right] \\
         & = \sum_{i = 1}^{n} \left(x_i - \overline{x}_n\right)^2 + \sum_{i = 1}^{n} 2\left(x_i - \overline{x}_n\right)\left(\overline{x}_n - \mu\right) + \sum_{i = 1}^{n} \left(\overline{x}_n - \mu\right)^2 \\
-        & = s_n^2 + 2\left(\overline{x}_n - \mu\right)\sum_{i = 1}^{n} \left(x_i - \overline{x}_n\right) + n\left(\overline{x}_n - \mu\right)^2 \\
-        & = s_n^2 + 2\left(\overline{x}_n - \mu\right)\cdot 0 + n\left(\overline{x}_n - \mu\right)^2 \\
-        & = s_n^2 + n\left(\overline{x}_n - \mu\right)^2.
+        & = \overline{s}_n^2 + 2\left(\overline{x}_n - \mu\right)\sum_{i = 1}^{n} \left(x_i - \overline{x}_n\right) + n\left(\overline{x}_n - \mu\right)^2 \\
+        & = \overline{s}_n^2 + 2\left(\overline{x}_n - \mu\right)\cdot 0 + n\left(\overline{x}_n - \mu\right)^2 \\
+        & = \overline{s}_n^2 + n\left(\overline{x}_n - \mu\right)^2.
     \end{split}
 \end{equation*}
 
 Assim, podemos reescrever \ref{post1} como
 \begin{equation}
     \label{post2}
-    \xi(\mu, \tau \mid x_1, x_2, \dots, x_n) \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(\lambda_0 (\mu - \mu_0)^2 + s_n^2 + n\left(\overline{x}_n - \mu\right)^2\right) - \beta_0 \tau\right]}.
+    \xi(\mu, \tau \mid x_1, x_2, \dots, x_n) \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(\lambda_0 (\mu - \mu_0)^2 + \overline{s}_n^2 + n\left(\overline{x}_n - \mu\right)^2\right) - \beta_0 \tau\right]}.
 \end{equation}
 
 Note também que
@@ -179,7 +179,7 @@ Substituindo isso em \ref{ig}, temos
 
 Dessa forma, substituindo o resultado acima em \ref{post2}, obtemos
 \begin{equation*}
-    \xi(\mu, \tau \mid x_1, x_2, \dots, x_n) \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(s_n^2 + (n + \lambda_0)\left(\mu - \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)^2 + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0}\right) - \beta_0 \tau\right]}.
+    \xi(\mu, \tau \mid x_1, x_2, \dots, x_n) \propto \tau^{\alpha_0 - 1 + (n + 1)/2} \exp{\left[-\dfrac{\tau}{2}\left(\overline{s}_n^2 + (n + \lambda_0)\left(\mu - \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)^2 + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0}\right) - \beta_0 \tau\right]}.
 \end{equation*}
 
 Definindo
@@ -188,14 +188,14 @@ Definindo
         \lambda_1 & = \lambda_0 + n \\
         \mu_1 & = \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0} \\
         \alpha_1 & = \alpha_0 + \dfrac{n}{2} \\
-        \beta_1 & = \beta_0 + \dfrac{s_n^2}{2} + \dfrac{n\lambda_0\left(\overline{x}_n^2 - \mu_0\right)^2}{2\left(\lambda_0 + n\right)},
+        \beta_1 & = \beta_0 + \dfrac{\overline{s}_n^2}{2} + \dfrac{n\lambda_0\left(\overline{x}_n - \mu_0\right)^2}{2\left(\lambda_0 + n\right)},
     \end{split}
 \end{equation*}
 % \[\lambda_1 = \lambda_0 + n \text{, } \mu_1 = \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0} \text{, } \alpha_1 = \alpha_0 + \dfrac{n}{2} \text{ e } \beta_1 = \beta_0 + \dfrac{s_n^2}{2} + \dfrac{n\lambda_0\left(\overline{x}_n^2 - \mu_0\right)^2}{2\left(\lambda_0 + n\right)},\]
 
 \noindent podemos escrever o termo dentro da exponencial como\footnote{Como as expressões são muito grandes, estou manipulando as mesmas de uma linha para outra.}
-\[-\dfrac{\tau}{2}\left(s_n^2 + (n + \lambda_0)\left(\mu - \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)^2 + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0}\right) - \beta_0 \tau\]
-\[-\dfrac{1}{2}\left(\lambda_0 + n\right)\tau\left(\mu - \left(\dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)\right)^2 - \tau\left(\beta_0 + \dfrac{s_n^2}{2} + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{2\left(n + \lambda_0\right)}\right)\]
+\[-\dfrac{\tau}{2}\left(\overline{s}_n^2 + (n + \lambda_0)\left(\mu - \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)^2 + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0}\right) - \beta_0 \tau\]
+\[-\dfrac{1}{2}\left(\lambda_0 + n\right)\tau\left(\mu - \left(\dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)\right)^2 - \tau\left(\beta_0 + \dfrac{\overline{s}_n^2}{2} + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{2\left(n + \lambda_0\right)}\right)\]
 \[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2 - \tau\beta_1.\]
 
 Já o expoente de $\tau$ pode ser escrito como
@@ -223,30 +223,32 @@ Assim, obtemos a distribuição conjunta a posteriori de $\mu$ e $\tau$. Além d
 
 \noindent é, também exceto por um fator multiplicativo que independe de $\mu$ e $\tau$, a distribuição a posteriori de $\tau$. Note que essa distribuição é uma Gama de parâmetros $\alpha_1$ e $\beta_1$.
 
-Fazendo um paralelo com a ideia frequentista, note que a média a posteriori $\left(\mu_1\right)$ é função da média amostral $\left(\overline{x}_n\right)$, que é o EMV, e dos hiperparâmetros iniciais:
-\[\mu_1 = \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}.\]
-
-Note que o lado direito da expressão acima pode ser interpretada como uma média ponderada entre $\mu_0$ e $\overline{x}_n$. Dessa forma, $\mu_0$ tem peso $\lambda_0$ e $\overline{x}_n$ tem peso $n$ e, com isso, nota-se que quando o número de amostras cresce $(n \to \infty)$, temos que $\mu_1 \to \overline{x}_n$. Dessa forma, podemos interpretar $\lambda_0$ como se fosse uma espécie de ``métrica de certeza'' ou então uma ``métrica de aversão'' em relação as ideias, a priori, sobre $\mu_0$.
-
-Exemplificando essa ideia, tomando $\mu_0$ e $\lambda_0 > n$ teremos, após a atualização dos hiperparâmetros, um valor de $\mu_1$ mais próximo de $\mu_0$ que de $\overline{x}_n$. Dessa forma, um $\lambda_0$ maior que $n$ implica que, de certo modo, estamos confiando mais nos conhecimentos prévios sobre o experimento que nas amostras. Podemos notar também que, se $\lambda_0 \gg n$, a diferença entre $\mu_1$ e $\mu_0$ é muito pequena, o que pode nos levar a ideia do parágrafo anterior, ou seja, a de considerar $\lambda_0$ como uma ``métrica de aversão'', assim, quanto maior $\lambda_0$, mais averso estamos a alterações na atualização do parâmetro $\mu_0$, necessitando, para isso, uma maior quantidade de amostras para uma alteração significativa, quando necessária\footnote{Note que podemos ter $\mu_0$ muito próximo a média de $\mu$, então ser averso ou não acaba sendo, praticamente, irrelevante.}.
-
 Esse conjunto de prioris utilizadas acima para esse caso normal em que desconhecemos tanto a média quanto a precisão é conhecida como Distribuição Normal-Gama. Note que essa distribuição é fechada no cálculo da posteriori, ou seja, a posteriori tem a mesma distribuição da priori. Já a distribuição marginal de $\mu$ a posteriori pode ser encontrada integrando o produto de $P(\tau)$ com $P(\mu \mid \tau)$ no domínio de $\tau$, isto é $\mathbb{R}_{>0}$. Fazendo isto, temos
 \begin{equation*}
     \begin{split}
         P(\mu) & = \int_{0}^{\infty} P(\mu \mid \tau) P(\tau) ~d\tau \\
         & \propto \int_{0}^{\infty} \tau^{1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2\right]} \tau^{\alpha_1 - 1} \exp{\left[-\beta_1\tau\right]} ~d\tau \\
         & \propto \int_{0}^{\infty} \tau^{\alpha_1 - 1 + 1/2} \exp{\left[-\dfrac{1}{2}\lambda_1\tau\left(\mu - \mu_1\right)^2 - \beta_1\tau\right]} ~d\tau \\
-        & \propto \left(\dfrac{2\beta_0 + \lambda_0 \left(\mu - \mu_0\right)^2}{2}\right)^{-\left(\alpha_0 + \frac{1}{2}\right)} \\
-        & \propto \left(1 + \dfrac{\left(\mu - \mu_0\right)^2}{\frac{2\beta_0}{\lambda_0}}\right)^{-\left(\alpha_0 + \frac{1}{2}\right)},
+        & \propto \left(\dfrac{2\beta_1 + \lambda_1 \left(\mu - \mu_1\right)^2}{2}\right)^{-\left(\alpha_1 + \frac{1}{2}\right)} \\
+        & \propto \left(1 + \dfrac{\left(\mu - \mu_1\right)^2}{\frac{2\beta_1}{\lambda_1}}\right)^{-\left(\alpha_1 + \frac{1}{2}\right)},
     \end{split}
 \end{equation*}
 
 \noindent onde podemos ver que $\mu$ tem distribuição $t$ deslocada, isto é,
-\[X = \mu_0 + \dfrac{\beta_0}{\alpha_0 \lambda_0}T,\]
+\[\mu \sim X = \mu_1 + \left(\dfrac{\beta_1}{\alpha_1 \lambda_1}\right)^{\frac{1}{2}}T,\]
 
-\noindent com $T$ tendo distribuição $t$ de Student com $2\alpha_0$ graus de liberdade.
+\noindent com $T$ tendo distribuição $t$ de Student com $2\alpha_1$ graus de liberdade.
 
-Após termos visto o desenvolvimento das distribuições a posteriori, vamos ilustrar essas ideias na prática.
+\subsubsection*{Paralelo com o Frequentismo}
+
+Fazendo um paralelo com a ideia frequentista, note que a média a posteriori $\left(\mu_1\right)$ é função da média amostral $\left(\overline{x}_n\right)$, que é o EMV, e dos hiperparâmetros iniciais:
+\[\mu_1 = \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}.\]
+
+Note que o lado direito da expressão acima pode ser interpretada como uma média ponderada entre $\mu_0$ e $\overline{x}_n$. Dessa forma, $\mu_0$ tem peso $\lambda_0$ e $\overline{x}_n$ tem peso $n$ e, com isso, nota-se que quando o número de amostras cresce $(n \to \infty)$, temos que $\mu_1 \to \overline{x}_n$. Dessa forma, podemos interpretar $\lambda_0$ como se fosse uma espécie de ``métrica de certeza'' ou então uma ``métrica de aversão'' em relação as ideias, a priori, sobre $\mu_0$.
+
+Exemplificando essa ideia, tomando $\mu_0$ e $\lambda_0 > n$ teremos, após a atualização dos hiperparâmetros, um valor de $\mu_1$ mais próximo de $\mu_0$ que de $\overline{x}_n$. Dessa forma, um $\lambda_0$ maior que $n$ implica que, de certo modo, estamos confiando mais nos conhecimentos prévios sobre o experimento que em nossas observações. Podemos notar também que, se $\lambda_0 \gg n$, a diferença entre $\mu_1$ e $\mu_0$ é muito pequena, o que pode nos levar a ideia do parágrafo anterior, ou seja, a de considerar $\lambda_0$ como uma ``métrica de certeza'' ou uma ``métrica de aversão'', assim, quanto maior $\lambda_0$, podemos dizer que estamos mais certos que sobre $\mu$ a partir de nossa ideia $\mu_0$ ou então que estamos mais aversos a alterações na atualização do parâmetro $\mu_0$. Note que, nos dois casos, necessitamos uma grande quantidade de amostras para uma alteração significativa de $\mu_0$ para $\mu_1$, quando a mesma for possível.\footnote{Note que podemos ter $\mu_0$ muito próximo do valor esperado de $\mu$, então ter um $\lambda_0$ alto, indicando certeza ou aversão, acaba não sendo relevante, pois o esperado é que, com $n$ grande, $\overline{x}_n$ também esteja próximo ao valor esperado de $\mu$, logo, as diferença entre $\mu_0$ e $\mu_1$ acaba se tornando pequena, mesmo com $\lambda_0$ pequeno.}
+
+Após termos visto o desenvolvimento das distribuições a posteriori vamos ilustrar essas ideias com um exemplo.
 
 \subsection*{Um pequeno exemplo}
 
@@ -270,7 +272,64 @@ Após termos visto o desenvolvimento das distribuições a posteriori, vamos ilu
 
 Nesse exemplo, apesar de parecer que não é possível encontrar a distribuição a posteriori de $\mu$ e $\tau$, é possível sim, conforme visto anteriormente, encontrar tal distribuição.
 
-Primeiramente, note que, dados $\lambda_0$, $\mu_0$, $\alpha_0$ e $\beta_0$, necessitamos apenas de $n$, $\overline{x}_n$ e $s_n^2$ para computar os parâmetros da distribuição a posteriori, a qual já vimos ser Normal-Gama. Agora, perceba que Valciclei fez suas estatística baseado em dados de dez pamonhas, ou seja, $n = 10$. Além disso, as estatísticas que Valciclei conseguiu anotar antes de fazer sua visita de emergência ao banheiro foram, justamente, a média amostral $\left(\overline{x}_n\right)$ e a variância amostral $\left(s_n^2\right)$.
+Primeiramente, note que, dados $\lambda_0$, $\mu_0$, $\alpha_0$ e $\beta_0$, necessitamos apenas de $n$, $\overline{x}_n$ e $\overline{s}_n^2$ para computar os parâmetros da distribuição a posteriori, a qual já vimos ser Normal-Gama. Agora, perceba que Valciclei fez suas estatística baseado em dados de dez pamonhas, ou seja, $n = 10$. Além disso, as estatísticas que Valciclei conseguiu anotar antes de fazer sua visita de emergência ao banheiro foram, justamente, a média amostral $\left(\overline{x}_n\right)$ e a variância amostral $\left(\overline{s}_n^2\right)$.
+
+Agora, precisamos apenas verificar quais são os hiperparâmetros para nossa priori. Note que Palmirinha suspeita que a concentração de amido está em torno de $10$ mg/L, ou seja, podemos tomar $\mu_0 = 10$. De forma similar a que DeGroot fez em seu exemplo 8.6.3 \cite{degroot}, vamos dividir a variância amostral entre $\mu$ e $\tau$, dessa forma
+\[Var(\mu) = \dfrac{\overline{s}_n^2}{2} = 3.965226 \text{ e } E[\tau] = \dfrac{1}{\frac{\overline{s}_n^2}{2}} = \dfrac{1}{3.965226}.\]
+
+Palmirinha também suspeita que o coeficiente de variação da concentração de amido fique em torno de $\frac{1}{2}$, mas note que, em termos de precisão, temos
+\[\operatorname{cv} = \dfrac{\sigma}{\mu} = \dfrac{1}{\mu \sqrt{\tau}},\]
+
+\noindent assim, tomando o valor esperado das prioris de $\mu$ e $\tau$, obtemos
+\[\operatorname{cv} = \dfrac{1}{\mu_0 \sqrt{\frac{\alpha_0}{\beta_0}}}, \text{ com } \alpha_0 > 1.\]
+
+A condição $\alpha_0 > 1$ é dada para que possamos utilizar o teorema 8.6.3 do DeGroot \cite{degroot}, o qual afirma que
+\[Var(\mu) = \dfrac{\beta_0}{\lambda_0 \left(\alpha_0 - 1\right)} \implies \lambda_0 = \dfrac{\beta_0}{Var(\mu) \left(\alpha_0 - 1\right)}.\]
+
+Tomando $\alpha_0 = 2$ podemos encontrar $\beta_0$:
+\begin{equation*}
+    \begin{split}
+        \dfrac{1}{2} & = \dfrac{1}{\mu_0 \sqrt{\frac{\alpha_0}{\beta_0}}} \\
+        2 & = 10 \sqrt{\frac{2}{\beta_0}} \\
+        \dfrac{1}{5} & = \sqrt{\frac{2}{\beta_0}} \\
+        \dfrac{1}{25} & = \dfrac{2}{\beta_0} \\
+        \beta_0 & = 50.
+    \end{split}
+\end{equation*}
+
+Agora, podemos encontrar $\lambda_0$:
+\begin{equation*}
+    \begin{split}
+        \lambda_0 & = \dfrac{50}{3.965226 \left(2 - 1\right)} \\
+        & = \dfrac{50}{3.965226}.
+    \end{split}
+\end{equation*}
+
+Agora, com todos os hiperparâmetros em mãos, podemos fazer o cálculo da posteriori, ou seja, atualizar os hiperparâmetros. Assim, temos
+\begin{equation*}
+    \begin{split}
+        \lambda_1 & = \dfrac{50}{3.965226} + 10 \approx 22.609622 \\
+        \mu_1 & = \dfrac{\dfrac{50}{3.965226}\cdot 10 + 10\cdot 8.307849}{10 + \dfrac{50}{3.965226}} \approx 9.251579 \\
+        \alpha_1 & = 2 + \dfrac{10}{2} = 7 \\
+        \beta_1 & = 50 + \dfrac{7.930452}{2} + \dfrac{10\cdot \dfrac{50}{3.965226}\left(8.307849 - 10\right)^2}{2\left(\dfrac{50}{3.965226} + 10\right)} \approx 61.949896.
+    \end{split}
+\end{equation*}
+
+Assim, utilizando o último dos resultados acima, temos que
+\[\mu \sim X = 9.251579 + \left(\dfrac{61.949896}{7\cdot 22.609622}\right)^{\frac{1}{2}}T,\]
+
+\noindent onde $T$ tem distribuição $t$ de Student com $14$ graus de liberdade.
+
+Assim, utilizando tabelas da distribuição $t$ de Student, podemos ver que o local onde a distribuição deixa probabilidade $0.025$ à direita é o ponto $2.145$, dessa forma, temos que
+\[P\left(9.251579 + \left(\dfrac{61.949896}{7\cdot 22.609622}\right)^{\frac{1}{2}}\cdot (-2.145) < \mu < 9.251579 + \left(\dfrac{61.949896}{7\cdot 22.609622}\right)^{\frac{1}{2}}\cdot 2.145\right) = 0.95,\]
+
+\noindent ou seja,
+\[P\left(7.909581 < \mu < 10.59358\right) = 0.95.\]
+
+Logo, $a = 7.909581$ e $b = 10.59358$.
+
+
+
 
 
 % \section*{Conclusão}
