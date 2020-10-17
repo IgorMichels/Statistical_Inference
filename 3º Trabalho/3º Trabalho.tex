@@ -12,6 +12,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{multicol}
+\usepackage{verbatim}
 
 \usepackage{pgfplots}
 \usepackage{tikz}
@@ -23,6 +24,7 @@
     (715.6423511*(1/#1)^(4.5))/1244160)*exp((-ln(1/#1)-1)*#1)}}
 \pgfmathdeclarefunction{studentpost}{1}{\pgfmathparse{gamma((#1+1)/2)/(sqrt(#1*pi)*gamma(#1/2))*((1+((x-9.251579)*(x-9.251579))/#1)^(-(#1+1)/2))}}
 \pgfmathdeclarefunction{studentprio}{1}{\pgfmathparse{gamma((#1+1)/2)/(sqrt(#1*pi)*gamma(#1/2))*((1+((x-10)*(x-10))/#1)^(-(#1+1)/2))}}
+\pgfmathdeclarefunction{student}{3}{\pgfmathparse{(gamma((#1 + 1)/2)*#1^(#1/2))/(gamma(#1/2)*sqrt(pi)*sqrt(#3))*(#1 + (x - #2)^2/#3)^(-(#1 + 1)/2)}}
 
 \newtheorem{definition}{Definição}
 \newtheorem{theorem}{Teorema}
@@ -196,7 +198,6 @@ Definindo
         \beta_1 & = \beta_0 + \dfrac{\overline{s}_n^2}{2} + \dfrac{n\lambda_0\left(\overline{x}_n - \mu_0\right)^2}{2\left(\lambda_0 + n\right)},
     \end{split}
 \end{equation*}
-% \[\lambda_1 = \lambda_0 + n \text{, } \mu_1 = \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0} \text{, } \alpha_1 = \alpha_0 + \dfrac{n}{2} \text{ e } \beta_1 = \beta_0 + \dfrac{s_n^2}{2} + \dfrac{n\lambda_0\left(\overline{x}_n^2 - \mu_0\right)^2}{2\left(\lambda_0 + n\right)},\]
 
 \noindent podemos escrever o termo dentro da exponencial como\footnote{Como as expressões são muito grandes, estou manipulando as mesmas de uma linha para outra.}
 \[-\dfrac{\tau}{2}\left(\overline{s}_n^2 + (n + \lambda_0)\left(\mu - \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}\right)^2 + \dfrac{n\lambda_0 \left(\overline{x}_n - \mu_0\right)^2}{n + \lambda_0}\right) - \beta_0 \tau\]
@@ -249,9 +250,11 @@ Esse conjunto de prioris utilizadas acima para esse caso normal em que desconhec
 Fazendo um paralelo com a ideia frequentista, note que a média a posteriori $\left(\mu_1\right)$ é função da média amostral $\left(\overline{x}_n\right)$, que é o EMV, e dos hiperparâmetros iniciais:
 \[\mu_1 = \dfrac{\lambda_0\mu_0 + n\overline{x}_n}{n + \lambda_0}.\]
 
-Note que o lado direito da expressão acima pode ser interpretada como uma média ponderada entre $\mu_0$ e $\overline{x}_n$. Dessa forma, $\mu_0$ tem peso $\lambda_0$ e $\overline{x}_n$ tem peso $n$ e, com isso, nota-se que quando o número de amostras cresce $(n \to \infty)$, temos que $\mu_1 \to \overline{x}_n$. Dessa forma, podemos interpretar $\lambda_0$ como se fosse uma espécie de ``métrica de certeza'' ou então uma ``métrica de aversão'' em relação as ideias, a priori, sobre $\mu_0$.
+Note que o lado direito da expressão acima pode ser interpretada como uma média ponderada entre $\mu_0$ e $\overline{x}_n$. Dessa forma, $\mu_0$ tem peso $\lambda_0$ e $\overline{x}_n$ tem peso $n$ e, com isso, nota-se que quando o número de amostras cresce $(n \to \infty)$, temos que $\mu_1 \to \overline{x}_n$. Dessa forma, podemos interpretar $\lambda_0$ como se fosse uma espécie de ``métrica de certeza'' ou então uma ``métrica de aversão'' em relação as ideias, a priori, sobre $\mu_0$, como se você tivesse feito o experimento anteriormente $\lambda_0$ vezes, obtendo uma média $\mu_0$.
 
 Exemplificando essa ideia, tomando $\mu_0$ e $\lambda_0 > n$ teremos, após a atualização dos hiperparâmetros, um valor de $\mu_1$ mais próximo de $\mu_0$ que de $\overline{x}_n$. Dessa forma, um $\lambda_0$ maior que $n$ implica que, de certo modo, estamos confiando mais nos conhecimentos prévios sobre o experimento que em nossas observações. Podemos notar também que, se $\lambda_0 \gg n$, a diferença entre $\mu_1$ e $\mu_0$ é muito pequena, o que pode nos levar a ideia do parágrafo anterior, ou seja, a de considerar $\lambda_0$ como uma ``métrica de certeza'' ou uma ``métrica de aversão'', assim, quanto maior $\lambda_0$, podemos dizer que estamos mais certos que sobre $\mu$ a partir de nossa ideia $\mu_0$ ou então que estamos mais aversos a alterações na atualização do parâmetro $\mu_0$. Note que, nos dois casos, necessitamos uma grande quantidade de amostras para uma alteração significativa de $\mu_0$ para $\mu_1$, quando a mesma for possível.\footnote{Note que podemos ter $\mu_0$ muito próximo do valor esperado de $\mu$, então ter um $\lambda_0$ alto, indicando certeza ou aversão, acaba não sendo relevante, pois o esperado é que, com $n$ grande, $\overline{x}_n$ também esteja próximo ao valor esperado de $\mu$, logo, as diferença entre $\mu_0$ e $\mu_1$ acaba se tornando pequena, mesmo com $\lambda_0$ pequeno.}
+
+Já os hiperparâmetros $\alpha_i$ e $\beta_i$ acabam, conforme resultado acima, dando forma a distribuição de $\mu$. Quanto maior $\alpha_0$, maior é $\alpha_1$ e, consequentemente, a posteriori de $\mu$ estará mais concentrada em torno de $\mu_1$. Já quanto maior $\beta_0$, maior $\beta_1$ e a distribuição a posteriori de $\mu$ fica menos concentrada em torno de $\mu_1$.
 
 Após termos visto o desenvolvimento das distribuições a posteriori vamos ilustrar essas ideias com um exemplo.
 
@@ -262,7 +265,7 @@ Após termos visto o desenvolvimento das distribuições a posteriori vamos ilus
     
     Ele, muito prestativo, rapidamente faz o experimento, mas, porque comeu todas as amostras depois que foram medidas, precisou fazer uma visita de emergência ao banheiro. Desta feita, apenas teve tempo de anotar em um papel a média e variância amostrais, $\bar{x}_n =  8.307849$ e $\bar{s}^2_n = 7.930452$.
     
-    Palmirinha tem uma reunião com investidores em pouco tempo, então decide voltar aos seus tempos de bayesiana~\textit{old school} e analisar os dados utilizando prioris conjugadas. Ela supõe que a concentração de amido segue uma distribuição normal com parâmetros $\mu$ e $\tau$ e que as observações feitas por Valciclei são independentes entre si. Ela suspeita que a concentração de amido na pamonha fique em torno de $10$ mg/L, com desvio padrão de  $2$ mg/L. Com sua larga experiência na confecção de pamonhas, ela suspeita ainda que o coeficiente de variação da concentração de amido seja em torno de $1/2$. Palmirinha tem um quadro em seu escritório, que diz
+    Palmirinha tem uma reunião com investidores em pouco tempo, então decide voltar aos seus tempos de bayesiana~\textit{old school} e analisar os dados utilizando prioris conjugadas. Ela supõe que a concentração de amido segue uma distribuição normal com parâmetros $\mu$ e $\tau$ e que as observações feitas por Valciclei são independentes entre si. Ela suspeita que a concentração de amido na pamonha fique em torno de $10$ mg/L, com desvio padrão de $2$ mg/L. Com sua larga experiência na confecção de pamonhas, ela suspeita ainda que o coeficiente de variação da concentração de amido seja em torno de $1/2$. Palmirinha tem um quadro em seu escritório, que diz
     \[\operatorname{cv} = \frac{\sigma}{\mu}.\]
     
     Agora, 
@@ -279,88 +282,279 @@ Nesse exemplo, apesar de parecer que não é possível encontrar a distribuiçã
 
 Primeiramente, note que, dados $\lambda_0$, $\mu_0$, $\alpha_0$ e $\beta_0$, necessitamos apenas de $n$, $\overline{x}_n$ e $\overline{s}_n^2$ para computar os parâmetros da distribuição a posteriori, a qual já vimos ser Normal-Gama. Agora, perceba que Valciclei fez suas estatística baseado em dados de dez pamonhas, ou seja, $n = 10$. Além disso, as estatísticas que Valciclei conseguiu anotar antes de fazer sua visita de emergência ao banheiro foram, justamente, a média amostral $\left(\overline{x}_n\right)$ e a variância amostral $\left(\overline{s}_n^2\right)$.
 
-Agora, precisamos apenas verificar quais são os hiperparâmetros para nossa priori. Note que Palmirinha suspeita que a concentração de amido está em torno de $10$ mg/L, ou seja, podemos tomar $\mu_0 = 10$. De forma similar a que DeGroot fez em seu exemplo 8.6.3 \cite{degroot}, vamos dividir a variância amostral entre $\mu$ e $\tau$, dessa forma
-\[Var(\mu) = \dfrac{\overline{s}_n^2}{2} = 3.965226 \text{ e } E[\tau] = \dfrac{1}{\frac{\overline{s}_n^2}{2}} = \dfrac{1}{3.965226}.\]
+Agora precisamos apenas verificar quais são os hiperparâmetros para nossa priori. Note que Palmirinha suspeita que a concentração de amido está em torno de $10$ mg/L, ou seja, tomamos $\mu_0 = 10$.
 
-Palmirinha também suspeita que o coeficiente de variação da concentração de amido fique em torno de $\frac{1}{2}$, mas note que, em termos de precisão, temos
-\[\operatorname{cv} = \dfrac{\sigma}{\mu} = \dfrac{1}{\mu \sqrt{\tau}},\]
+Agora, sabemos que Palmirinha suspeita que o desvio padrão da concentração seja igual a $2$, ou seja, uma variância igual a $4$, além de sua suspeita de que o coeficiente de variação esteja próximo de $\frac{1}{2}$. Equacionando essas informações, já usando que $\mu_0 = 10$, temos:
+\[\sigma^2 = 4 \implies \tau = \dfrac{1}{4} \implies \dfrac{\beta_0^2}{\alpha_0} = \dfrac{1}{4} \text{ e } \operatorname{cv} = \dfrac{\sigma}{\mu} = \dfrac{\sqrt{\tau^{-1}}}{\mu} \implies E\left[\operatorname{cv} \mid \mu_0 = 10\right] = \dfrac{\sqrt{\alpha_0}}{10\cdot \beta_0} \implies \dfrac{1}{2} = \dfrac{\sqrt{\alpha_0}}{10\cdot \beta_0}.\]
 
-\noindent assim, tomando o valor esperado das prioris de $\mu$ e $\tau$, obtemos
-\[\operatorname{cv} = \dfrac{1}{\mu_0 \sqrt{\frac{\alpha_0}{\beta_0}}}, \text{ com } \alpha_0 > 1.\]
+Note que os dois resultados acima são excludentes, uma vez que devemos ter
+\[\dfrac{1}{4} = \dfrac{\beta_0^2}{\alpha_0} = \dfrac{1}{25}.\]
 
-A condição $\alpha_0 > 1$ é dada para que possamos utilizar o teorema 8.6.3 do DeGroot \cite{degroot}, o qual afirma que
+Sendo assim, irei encontrar o parâmetro com $4$ prioris distintas:
+\begin{itemize}
+    \item
+        usando que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{4}$;
+        
+    \item
+        usando que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{25}$;
+        
+    \item
+        usando que $\frac{\beta_0^2}{\alpha_0}$ é média aritmética entre $\frac{1}{4}$ e $\frac{1}{25}$, ou seja, $\frac{29}{200}$ e;
+        
+    \item
+        usando que $\frac{\beta_0^2}{\alpha_0}$ é média geométrica entre $\frac{1}{4}$ e $\frac{1}{25}$, ou seja, $\frac{1}{10}$.
+\end{itemize}
+
+Note que, dessa forma, escolhendo $\alpha_0$, já temos o valor de $\beta_0$. Agora, precisamos encontrar o valor de $\lambda_0$. Para tanto, podemos utilizar o teorema 8.6.3 do DeGroot \cite{degroot}, o qual afirma que, com $\alpha_0 > 1$,
 \[Var(\mu) = \dfrac{\beta_0}{\lambda_0 \left(\alpha_0 - 1\right)} \implies \lambda_0 = \dfrac{\beta_0}{Var(\mu) \left(\alpha_0 - 1\right)}.\]
 
-Tomando $\alpha_0 = 2$ podemos encontrar $\beta_0$:
+Note que agora nosso problema passa a ser determinar um valor para $Var(\mu)$, o que podemos fazer de forma similar ao que DeGroot fez em seu exemplo 8.6.3, dividindo a variância amostral entre $Var(\mu)$ e $E[\tau]$. Fazendo
+\[Var(\mu) = \dfrac{\overline{s}_n^2}{2} = 3.965226 \text{ e } E[\tau] = \dfrac{1}{\frac{\overline{s}_n^2}{2}} = \dfrac{1}{3.965226},\]
+
+\noindent já temos o valor de $Var(\mu)$ e, consequentemente, podemos encontrar $\lambda_0$ ao tomar um $\alpha_0 > 1$ e, além disso, obtemos que o valor esperado de $\tau$ está próximo a $\frac{1}{4}$, que é o que Palmirinha estava supondo. Dessa forma, podemos fazer as contas nos quatro casos dados acima. Para isso, necessitamos escolher um valor para $\alpha_0$, assim, optarei por sempre escolher o valor que se encontra no denominador da fração que representa $\frac{\beta_0^2}{\alpha_0}$. Consequentemente, $\beta_0$ sempre será a raiz quadrada do numerador da fração. Os cálculos de $\lambda_0$, bem como dos hiperparâmetros a posteriori e do intervalo de confiança foram realizados em um Notebook com Python 3.
+
+Assim, no primeiro caso, onde $\frac{\beta_0^2}{\alpha_0} = \frac{1}{4}$, temos:
 \begin{equation*}
-    \begin{split}
-        \dfrac{1}{2} & = \dfrac{1}{\mu_0 \sqrt{\frac{\alpha_0}{\beta_0}}} \\
-        2 & = 10 \sqrt{\frac{2}{\beta_0}} \\
-        \dfrac{1}{5} & = \sqrt{\frac{2}{\beta_0}} \\
-        \dfrac{1}{25} & = \dfrac{2}{\beta_0} \\
-        \beta_0 & = 50.
-    \end{split}
+    \left\{
+        \begin{array}{ll}
+            \alpha_0 & = 4 \\
+            \beta_0 & = 1 \\
+            \mu_0 & = 10 \\
+            Var(\mu) & = 3.965226 \\
+            n & = 20 \\
+            \overline{x}_n & = 8.307849 \\
+            \overline{s}_n^2 & = 7.930452
+        \end{array}
+    \right.
+    \implies \lambda_0 \approx 0.08406414497769694,
 \end{equation*}
 
-Agora, podemos encontrar $\lambda_0$:
+\noindent o que nos retorna os seguintes hiperparâmetros a posteriori:
 \begin{equation*}
-    \begin{split}
-        \lambda_0 & = \dfrac{50}{3.965226 \left(2 - 1\right)} \\
-        & = \dfrac{50}{3.965226}.
-    \end{split}
+    \left\{
+        \begin{array}{ll}
+            \lambda_1 & = 10.084064144977697 \\
+            \mu_1 & = 8.321955338966417 \\
+            \alpha_1 & = 9 \\
+            \beta_1 & = 5.084576277941813
+        \end{array}
+    \right.
 \end{equation*}
 
-Agora, com todos os hiperparâmetros em mãos, podemos fazer o cálculo da posteriori, ou seja, atualizar os hiperparâmetros. Assim, temos
+\noindent e o intervalo de confiança $(7.824678461062495, 8.819232216870338)$.
+
+Já no segundo caso, quando $\frac{\beta_0^2}{\alpha_0}  =\frac{1}{25}$, temos:
 \begin{equation*}
-    \begin{split}
-        \lambda_1 & = \dfrac{50}{3.965226} + 10 \approx 22.609622 \\
-        \mu_1 & = \dfrac{\dfrac{50}{3.965226}\cdot 10 + 10\cdot 8.307849}{10 + \dfrac{50}{3.965226}} \approx 9.251579 \\
-        \alpha_1 & = 2 + \dfrac{10}{2} = 7 \\
-        \beta_1 & = 50 + \dfrac{7.930452}{2} + \dfrac{10\cdot \dfrac{50}{3.965226}\left(8.307849 - 10\right)^2}{2\left(\dfrac{50}{3.965226} + 10\right)} \approx 61.949896.
-    \end{split}
+    \left\{
+        \begin{array}{ll}
+            \alpha_0 & = 25 \\
+            \beta_0 & = 1 \\
+            \mu_0 & = 10 \\
+            Var(\mu) & = 3.965226 \\
+            n & = 20 \\
+            \overline{x}_n & = 8.307849 \\
+            \overline{s}_n^2 & = 7.930452
+        \end{array}
+    \right.
+    \implies \lambda_0 \approx 0.010508018122212118,
 \end{equation*}
 
-Assim, utilizando o último dos resultados acima, temos que
-\[\mu \sim X = 9.251579 + \left(\dfrac{61.949896}{7\cdot 22.609622}\right)^{\frac{1}{2}}T,\]
+\noindent nos retornando os seguintes hiperparâmetros a posteriori:
+\begin{equation*}
+    \left\{
+        \begin{array}{ll}
+            \lambda_1 & = 10.010508018122213 \\
+            \mu_1 & = 8.309625248851837 \\
+            \alpha_1 & = 30 \\
+            \beta_1 & = 4.980254406354445
+        \end{array}
+    \right.
+\end{equation*}
 
-\noindent onde $T$ tem distribuição $t$ de Student com $14$ graus de liberdade.
+\noindent e o intervalo de confiança $(8.05203362327982, 8.567216874423854)$.
 
-Assim, utilizando tabelas da distribuição $t$ de Student, podemos ver que o local onde a distribuição deixa probabilidade $0.025$ à direita é o ponto $2.145$, dessa forma, temos que
-\[P\left(9.251579 + \left(\dfrac{61.949896}{7\cdot 22.609622}\right)^{\frac{1}{2}}\cdot (-2.145) < \mu < 9.251579 + \left(\dfrac{61.949896}{7\cdot 22.609622}\right)^{\frac{1}{2}}\cdot 2.145\right) = 0.95,\]
+No terceiro dos casos, com $\frac{\beta_0^2}{\alpha_0} = \frac{29}{200}$, temos:
+\begin{equation*}
+    \left\{
+        \begin{array}{ll}
+            \alpha_0 & = 200 \\
+            \beta_0 & = \sqrt{29} \\
+            \mu_0 & = 10 \\
+            Var(\mu) & = 3.965226 \\
+            n & = 20 \\
+            \overline{x}_n & = 8.307849 \\
+            \overline{s}_n^2 & = 7.930452
+        \end{array}
+    \right.
+    \implies \lambda_0 \approx 0.0068246121870715526,
+\end{equation*}
 
-\noindent ou seja,
-\[P\left(7.909581 < \mu < 10.59358\right) = 0.95.\]
+\noindent nos retornando os seguintes hiperparâmetros a posteriori:
+\begin{equation*}
+    \left\{
+        \begin{array}{ll}
+            \lambda_1 & = 10.00682461218707 \\
+            \mu_1 & = 8.309003039846257 \\
+            \alpha_1 & = 205 \\
+            \beta_1 & = 9.360154855533919
+        \end{array}
+    \right.
+\end{equation*}
 
-Logo, $a = 7.909581$ e $b = 10.59358$.
+\noindent e o intervalo de confiança sendo o intervalo $(8.176218214379208, 8.441787865313305)$.
 
-Graficamente, temos as seguintes distribuições $\mu$
+Por fim, no caso em que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{10}$, temos:
+\begin{equation*}
+    \left\{
+        \begin{array}{ll}
+            \alpha_0 & = 10 \\
+            \beta_0 & = 1 \\
+            \mu_0 & = 10 \\
+            Var(\mu) & = 3.965226 \\
+            n & = 20 \\
+            \overline{x}_n & = 8.307849 \\
+            \overline{s}_n^2 & = 7.930452
+        \end{array}
+    \right.
+    \implies \lambda_0 \approx 0.028021381659232316,
+\end{equation*}
 
-\begin{figure}[H]
-    \begin{tikzpicture}
-        \begin{axis}[no markers, domain = 0:18, samples = 300, height = 10 cm, width = 16 cm, enlargelimits = upper, axis on top]
-            \addplot [domain = 10.59358:18, draw = black, samples = 100] {studentpost(14)} \closedcycle;
-            \addplot [domain = 0:7.9095811, draw = black, samples = 100] {studentpost(14)} \closedcycle;
-            \addplot [domain = 7.9095811:10.59358, draw = black, samples = 100] {studentpost(14)} \closedcycle;
-            \addplot [draw = blue] {studentpost(14)}
-            node [pos=0.45, anchor=mid east, xshift=-2em,
-            append after command={
-                (\tikzlastnode.east) edge [thin, gray] +(2em,0)}]
-            {Posteriori};
-            \addplot [draw = cyan] {studentprio(4)}
-            node [pos=0.55, anchor=mid west, xshift=2em,
-            append after command={
-                (\tikzlastnode.west) edge [thin, gray] +(-2em,0)}]
-            {Priori};
-            \addplot [domain = 7.9095811:10.59358, draw = red, samples = 2, line width=0.1cm] {0}
-            node [pos=0.55, anchor=north, yshift=2em] {I.C.};
-        \end{axis}
-    \end{tikzpicture}
-\end{figure}
+\noindent nos retornando os seguintes hiperparâmetros a posteriori:
+\begin{equation*}
+    \left\{
+        \begin{array}{ll}
+            \lambda_1 & = 10.028021381659233 \\
+            \mu_1 & = 8.312577391293896 \\
+            \alpha_1 & = 15 \\
+            \beta_1 & = 5.005231760281796
+        \end{array}
+    \right.
+\end{equation*}
 
+\noindent e o intervalo de confiança resultante é o intervalo $(7.940037725332982, 8.68511705725481)$.
 
-% \section*{Conclusão}
+\begin{comment}
+    % Agora, precisamos apenas verificar quais são os hiperparâmetros para nossa priori. Note que Palmirinha suspeita que a concentração de amido está em torno de $10$ mg/L, ou seja, podemos tomar $\mu_0 = 10$. De forma similar a que DeGroot fez em seu exemplo 8.6.3 \cite{degroot}, vamos dividir a variância amostral entre $\mu$ e $\tau$, dessa forma
+    % \[Var(\mu) = \dfrac{\overline{s}_n^2}{2} = 3.965226 \text{ e } E[\tau] = \dfrac{1}{\frac{\overline{s}_n^2}{2}} = \dfrac{1}{3.965226}.\]
+    
+    % Palmirinha também suspeita que o coeficiente de variação da concentração de amido fique em torno de $\frac{1}{2}$, mas note que, em termos de precisão, temos
+    % \[\operatorname{cv} = \dfrac{\sigma}{\mu} = \dfrac{1}{\mu \sqrt{\tau}},\]
+    
+    % \noindent assim, tomando o valor esperado das prioris de $\mu$ e $\tau$, obtemos
+    % \[\operatorname{cv} = \dfrac{1}{\mu_0 \sqrt{\frac{\alpha_0}{\beta_0}}}, \text{ com } \alpha_0 > 1.\]
+    
+    % A condição $\alpha_0 > 1$ é dada para que possamos utilizar o teorema 8.6.3 do DeGroot \cite{degroot}, o qual afirma que
+    % \[Var(\mu) = \dfrac{\beta_0}{\lambda_0 \left(\alpha_0 - 1\right)} \implies \lambda_0 = \dfrac{\beta_0}{Var(\mu) \left(\alpha_0 - 1\right)}.\]
+    
+    % Tomando $\alpha_0 = 2$ podemos encontrar $\beta_0$:
+    % \begin{equation*}
+    %     \begin{split}
+    %         \dfrac{1}{2} & = \dfrac{1}{\mu_0 \sqrt{\frac{\alpha_0}{\beta_0}}} \\
+    %         2 & = 10 \sqrt{\frac{2}{\beta_0}} \\
+    %         \dfrac{1}{5} & = \sqrt{\frac{2}{\beta_0}} \\
+    %         \dfrac{1}{25} & = \dfrac{2}{\beta_0} \\
+    %         \beta_0 & = 50.
+    %     \end{split}
+    % \end{equation*}
+    
+    % Agora, podemos encontrar $\lambda_0$:
+    % \begin{equation*}
+    %     \begin{split}
+    %         \lambda_0 & = \dfrac{50}{3.965226 \left(2 - 1\right)} \\
+    %         & = \dfrac{50}{3.965226}.
+    %     \end{split}
+    % \end{equation*}
+    
+    % Agora, com todos os hiperparâmetros em mãos, podemos fazer o cálculo da posteriori, ou seja, atualizar os hiperparâmetros. Assim, temos
+    % \begin{equation*}
+    %     \begin{split}
+    %         \lambda_1 & = \dfrac{50}{3.965226} + 10 \approx 22.609622 \\
+    %         \mu_1 & = \dfrac{\dfrac{50}{3.965226}\cdot 10 + 10\cdot 8.307849}{10 + \dfrac{50}{3.965226}} \approx 9.251579 \\
+    %         \alpha_1 & = 2 + \dfrac{10}{2} = 7 \\
+    %         \beta_1 & = 50 + \dfrac{7.930452}{2} + \dfrac{10\cdot \dfrac{50}{3.965226}\left(8.307849 - 10\right)^2}{2\left(\dfrac{50}{3.965226} + 10\right)} \approx 61.949896.
+    %     \end{split}
+    % \end{equation*}
+    
+    % Assim, utilizando o último dos resultados acima, temos que
+    % \[\mu \sim X = 9.251579 + \left(\dfrac{61.949896}{7\cdot 22.609622}\right)^{\frac{1}{2}}T,\]
+    
+    % \noindent onde $T$ tem distribuição $t$ de Student com $14$ graus de liberdade.
+    
+    % Assim, utilizando tabelas da distribuição $t$ de Student, podemos ver que o local onde a distribuição deixa probabilidade $0.025$ à direita é o ponto $2.145$, dessa forma, temos que
+    % \[P\left(9.251579 + \left(\dfrac{61.949896}{7\cdot 22.609622}\right)^{\frac{1}{2}}\cdot (-2.145) < \mu < 9.251579 + \left(\dfrac{61.949896}{7\cdot 22.609622}\right)^{\frac{1}{2}}\cdot 2.145\right) = 0.95,\]
+    
+    % \noindent ou seja,
+    % \[P\left(7.909581 < \mu < 10.59358\right) = 0.95.\]
+    
+    % Logo, $a = 7.909581$ e $b = 10.59358$.
+\end{comment}
 
+Podemos ver essas distribuições de $\mu$ graficamente. Em ciano temos as distribuições a priori, já em azul é a posteriori e, em vermelho, o intervalo de confiança. Assim, temos as seguintes distribuições:
 
+\begin{multicols}{2}
+    \begin{figure}[H]
+        \begin{tikzpicture}
+            \begin{axis}[domain = 5:15, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper]
+                \addplot [domain = 5:7.824678461062495, draw = black] {student(18, 8.321955338966417, 0.05602432825188678)} \closedcycle;
+                \addplot [domain = 8.819232216870338:15, draw = black] {student(18, 8.321955338966417, 0.05602432825188678)} \closedcycle;
+                \addplot [domain = 7.824678461062495:8.819232216870338, draw = black] {student(18, 8.321955338966417, 0.05602432825188678)} \closedcycle;
+                \addplot [draw = blue] {student(18, 8.321955338966417, 0.05602432825188678)};
+                \addplot [draw = cyan] {student(8, 10, 2.9739195)};
+                \addplot [domain = 7.824678461062495:8.819232216870338, draw = red, samples = 2, line width=0.1cm] {0};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Caso em que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{4}$.}
+    \end{figure}
+    \begin{figure}[H]
+        \begin{tikzpicture}
+            \begin{axis}[domain = 5:15, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper]
+                \addplot [domain = 5:8.05203362327982, draw = black] {student(18, 8.321955338966417, 0.016583422131153235)} \closedcycle;
+                \addplot [domain = 8.567216874423854:15, draw = black] {student(18, 8.321955338966417, 0.016583422131153235)} \closedcycle;
+                \addplot [domain = 8.05203362327982:8.567216874423854, draw = black] {student(18, 8.321955338966417, 0.016583422131153235)} \closedcycle;
+                \addplot [draw = blue] {student(18, 8.321955338966417, 0.016583422131153235)};
+                \addplot [draw = cyan] {student(8, 10, 3.8066169600000004)};
+                \addplot [domain = 8.05203362327982:8.567216874423854, draw = red, samples = 2, line width=0.1cm] {0};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Caso em que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{25}$.}
+    \end{figure}
+    \begin{figure}[H]
+        \begin{tikzpicture}
+            \begin{axis}[domain = 5:15, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper]
+                \addplot [domain = 5:8.176218214379208, draw = black] {student(18, 8.321955338966417, 0.004562815253362879)} \closedcycle;
+                \addplot [domain = 8.441787865313305:15, draw = black] {student(18, 8.321955338966417, 0.004562815253362879)} \closedcycle;
+                \addplot [domain = 8.176218214379208:8.441787865313305, draw = black] {student(18, 8.321955338966417, 0.004562815253362879)} \closedcycle;
+                \addplot [draw = blue] {student(18, 8.321955338966417, 0.004562815253362879)};
+                \addplot [draw = cyan] {student(8, 10, 3.9453998699999997)};
+                \addplot [domain = 8.176218214379208:8.441787865313305, draw = red, samples = 2, line width=0.1cm] {0};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Caso em que $\frac{\beta_0^2}{\alpha_0} = \frac{29}{200}$.}
+    \end{figure}
+    \begin{figure}[H]
+        \begin{tikzpicture}
+            \begin{axis}[domain = 5:15, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper]
+                \addplot [domain = 5:7.940037725332982, draw = black] {student(18, 8.321955338966417, 0.033274970669927795)} \closedcycle;
+                \addplot [domain = 8.68511705725481:15, draw = black] {student(18, 8.321955338966417, 0.033274970669927795)} \closedcycle;
+                \addplot [domain = 7.940037725332982:8.68511705725481, draw = black] {student(18, 8.321955338966417, 0.033274970669927795)} \closedcycle;
+                \addplot [draw = blue] {student(18, 8.321955338966417, 0.033274970669927795)};
+                \addplot [draw = cyan] {student(8, 10, 3.5687034)};
+                \addplot [domain = 7.940037725332982:8.68511705725481, draw = red, samples = 2, line width=0.1cm] {0};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Caso em que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{10}$.}
+    \end{figure}
+\end{multicols}
+
+Dessa forma, podemos ver que o intervalo de confiança varia conforme nossa escolha de priori. E, como estamos sob o paradigma bayesiano, podemos interpretar o intervalo de confiança de 95\% como um intervalo em que temos 95\% de probabilidade de $\mu$ estar ali.
+
+\section*{Conclusão}
+
+Já no início pudemos ter uma boa ideia do significado da precisão, sendo visualizada como uma métrica de proximidade dos dados em relação a média. Após isso passamos a fazer uma análise bayesiana com a normal com média e precisão desconhecidas. Feita a análise, descobrimos mais uma família conjugada, agora com duas distribuições a priori. Além disso, a visualização de $\lambda_0$ como um nível de certeza a priori acabou deixando o cálculo da média a posteriori, $\mu_1$, um pouco mais intuitivo. Além dele, vimos que $\alpha_0$ e $\beta_0$ são hiperparâmetros que irão contribuir na forma da posteriori de $\mu$, ditando a concentração em torno de $\mu_1$.
+
+Chegando no exemplo vimos que a escolha da priori tem certa relevância no cálculo da posteriori, embora os intervalos de confiança que foram geram ficaram próximos. Ou seja, a priori pode ser gerada de diversas formas, a depender da interpretação de quem vai elaborá-la, mas a posteriori será similar, mesmo com prioris diferentes.
+
+Por fim, talvez seria interessante alguém falar com Palmirinha para que ela encontre um assistente menos guloso e, principalmente, guardar seus parâmetros de priori.
 
 \printbibliography
 
