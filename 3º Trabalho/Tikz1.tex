@@ -1,0 +1,27 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{xcolor}
+\pgfplotsset{compat = 1.16}
+\pgfmathdeclarefunction{gauss}{2}{\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}}
+
+\begin{document}
+    \begin{tikzpicture}
+        \begin{axis}[no markers, domain = 0:10, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper, axis on top]
+            \addplot [fill = cyan!20, draw = none, domain = -3:3] {gauss(0,1)} \closedcycle;
+            \addplot [fill = orange!20, draw = none, domain = -3:-2] {gauss(0,1)} \closedcycle;
+            \addplot [fill = orange!20, draw = none, domain = 2:3] {gauss(0,1)} \closedcycle;
+            \addplot [fill = blue!20, draw = none, domain = -2:-1] {gauss(0,1)} \closedcycle;
+            \addplot [fill = blue!20, draw = none, domain = 1:2] {gauss(0,1)} \closedcycle;
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[no markers, domain = 0:10, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper, axis on top]
+            \addplot [fill = cyan!20, draw = none, domain = -6:6] {gauss(0,2)} \closedcycle;
+            \addplot [fill = orange!20, draw = none, domain = -6:-4] {gauss(0,2)} \closedcycle;
+            \addplot [fill = orange!20, draw = none, domain = 4:6] {gauss(0,2)} \closedcycle;
+            \addplot [fill = blue!20, draw = none, domain = -4:-2] {gauss(0,2)} \closedcycle;
+            \addplot [fill = blue!20, draw = none, domain = 2:4] {gauss(0,2)} \closedcycle;
+        \end{axis}
+    \end{tikzpicture}
+\end{document}
