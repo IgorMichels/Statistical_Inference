@@ -269,24 +269,24 @@ Primeiramente, note que, dados $\lambda_0$, $\mu_0$, $\alpha_0$ e $\beta_0$, nec
 Agora precisamos apenas verificar quais são os hiperparâmetros para nossa priori. Note que Palmirinha suspeita que a concentração de amido está em torno de $10$ mg/L, ou seja, tomamos $\mu_0 = 10$.
 
 Agora, sabemos que Palmirinha suspeita que o desvio padrão da concentração seja igual a $2$, ou seja, uma variância igual a $4$, além de sua suspeita de que o coeficiente de variação esteja próximo de $\frac{1}{2}$. Equacionando essas informações, já usando que $\mu_0 = 10$, temos:
-\[\sigma^2 = 4 \implies \tau = \dfrac{1}{4} \implies \dfrac{\beta_0^2}{\alpha_0} = \dfrac{1}{4} \text{ e } \operatorname{cv} = \dfrac{\sigma}{\mu} = \dfrac{\sqrt{\tau^{-1}}}{\mu} \implies E\left[\operatorname{cv} \mid \mu_0 = 10\right] = \dfrac{\sqrt{\alpha_0}}{10\cdot \beta_0} \implies \dfrac{1}{2} = \dfrac{\sqrt{\alpha_0}}{10\cdot \beta_0}.\]
+\[\sigma^2 = 4 \implies \tau = \dfrac{1}{4} \implies \dfrac{\beta_0}{\alpha_0} = \dfrac{1}{4} \text{ e } \operatorname{cv} = \dfrac{\sigma}{\mu} = \dfrac{\sqrt{\tau^{-1}}}{\mu} \implies E\left[\operatorname{cv} \mid \mu_0 = 10\right] = \dfrac{\sqrt{\alpha_0}}{10\cdot \sqrt{\beta_0}} \implies \dfrac{1}{2} = \dfrac{\sqrt{\alpha_0}}{10\cdot \sqrt{\beta_0}}.\]
 
 Note que os dois resultados acima são excludentes, uma vez que devemos ter
-\[\dfrac{1}{4} = \dfrac{\beta_0^2}{\alpha_0} = \dfrac{1}{25}.\]
+\[\dfrac{1}{4} = \dfrac{\beta_0}{\alpha_0} = \dfrac{1}{25}.\]
 
 Sendo assim, irei encontrar o parâmetro com $4$ prioris distintas:
 \begin{itemize}
     \item
-        usando que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{4}$;
+        usando que $\frac{\beta_0}{\alpha_0} = \frac{1}{4}$;
         
     \item
-        usando que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{25}$;
+        usando que $\frac{\beta_0}{\alpha_0} = \frac{1}{25}$;
         
     \item
-        usando que $\frac{\beta_0^2}{\alpha_0}$ é média aritmética entre $\frac{1}{4}$ e $\frac{1}{25}$, ou seja, $\frac{29}{200}$ e;
+        usando que $\frac{\beta_0}{\alpha_0}$ é média aritmética entre $\frac{1}{4}$ e $\frac{1}{25}$, ou seja, $\frac{29}{200}$ e;
         
     \item
-        usando que $\frac{\beta_0^2}{\alpha_0}$ é média geométrica entre $\frac{1}{4}$ e $\frac{1}{25}$, ou seja, $\frac{1}{10}$.
+        usando que $\frac{\beta_0}{\alpha_0}$ é média geométrica entre $\frac{1}{4}$ e $\frac{1}{25}$, ou seja, $\frac{1}{10}$.
 \end{itemize}
 
 Note que, dessa forma, escolhendo $\alpha_0$, já temos o valor de $\beta_0$. Agora, precisamos encontrar o valor de $\lambda_0$. Para tanto, podemos utilizar o teorema 8.6.3 do DeGroot \cite{degroot}, o qual afirma que, com $\alpha_0 > 1$,
@@ -295,9 +295,9 @@ Note que, dessa forma, escolhendo $\alpha_0$, já temos o valor de $\beta_0$. Ag
 Note que agora nosso problema passa a ser determinar um valor para $Var(\mu)$, o que podemos fazer de forma similar ao que DeGroot fez em seu exemplo 8.6.3, dividindo a variância amostral entre $Var(\mu)$ e $E[\tau]$. Fazendo
 \[Var(\mu) = \dfrac{\overline{s}_n^2}{2} = 3.965226 \text{ e } E[\tau] = \dfrac{1}{\frac{\overline{s}_n^2}{2}} = \dfrac{1}{3.965226},\]
 
-\noindent já temos o valor de $Var(\mu)$ e, consequentemente, podemos encontrar $\lambda_0$ ao tomar um $\alpha_0 > 1$ e, além disso, obtemos que o valor esperado de $\tau$ está próximo a $\frac{1}{4}$, que é o que Palmirinha estava supondo. Dessa forma, podemos fazer as contas nos quatro casos dados acima. Para isso, necessitamos escolher um valor para $\alpha_0$, assim, optarei por sempre escolher o valor que se encontra no denominador da fração que representa $\frac{\beta_0^2}{\alpha_0}$. Consequentemente, $\beta_0$ sempre será a raiz quadrada do numerador da fração. Os cálculos de $\lambda_0$, bem como dos hiperparâmetros a posteriori e do intervalo de confiança foram realizados em um Notebook com Python 3.
+\noindent já temos o valor de $Var(\mu)$ e, consequentemente, podemos encontrar $\lambda_0$ ao tomar um $\alpha_0 > 1$ e, além disso, obtemos que o valor esperado de $\tau$ está próximo a $\frac{1}{4}$, que é o que Palmirinha estava supondo. Dessa forma, podemos fazer as contas nos quatro casos dados acima. Para isso, necessitamos escolher um valor para $\alpha_0$, assim, optarei por sempre escolher o valor que se encontra no denominador da fração que representa $\frac{\beta_0}{\alpha_0}$. Consequentemente, $\beta_0$ sempre o numerador da fração. Os cálculos de $\lambda_0$, bem como dos hiperparâmetros a posteriori e do intervalo de confiança foram realizados em um Notebook com Python 3.
 
-Assim, no primeiro caso, onde $\frac{\beta_0^2}{\alpha_0} = \frac{1}{4}$, temos:
+Assim, no primeiro caso, onde $\frac{\beta_0}{\alpha_0} = \frac{1}{4}$, temos:
 \begin{equation*}
     \left\{
         \begin{array}{ll}
@@ -327,7 +327,7 @@ Assim, no primeiro caso, onde $\frac{\beta_0^2}{\alpha_0} = \frac{1}{4}$, temos:
 
 \noindent e o intervalo de confiança $(7.824678461062495, 8.819232216870338)$.
 
-Já no segundo caso, quando $\frac{\beta_0^2}{\alpha_0}  =\frac{1}{25}$, temos:
+Já no segundo caso, quando $\frac{\beta_0}{\alpha_0} = \frac{1}{25}$, temos:
 \begin{equation*}
     \left\{
         \begin{array}{ll}
@@ -357,12 +357,12 @@ Já no segundo caso, quando $\frac{\beta_0^2}{\alpha_0}  =\frac{1}{25}$, temos:
 
 \noindent e o intervalo de confiança $(8.05203362327982, 8.567216874423854)$.
 
-No terceiro dos casos, com $\frac{\beta_0^2}{\alpha_0} = \frac{29}{200}$, temos:
+No terceiro dos casos, com $\frac{\beta_0}{\alpha_0} = \frac{29}{200}$, temos:
 \begin{equation*}
     \left\{
         \begin{array}{ll}
             \alpha_0 & = 200 \\
-            \beta_0 & = \sqrt{29} \\
+            \beta_0 & = 29 \\
             \mu_0 & = 10 \\
             Var(\mu) & = 3.965226 \\
             n & = 20 \\
@@ -370,24 +370,24 @@ No terceiro dos casos, com $\frac{\beta_0^2}{\alpha_0} = \frac{29}{200}$, temos:
             \overline{s}_n^2 & = 7.930452
         \end{array}
     \right.
-    \implies \lambda_0 \approx 0.0068246121870715526,
+    \implies \lambda_0 \approx 0.03675166137215896,
 \end{equation*}
 
 \noindent nos retornando os seguintes hiperparâmetros a posteriori:
 \begin{equation*}
     \left\{
         \begin{array}{ll}
-            \lambda_1 & = 10.00682461218707 \\
-            \mu_1 & = 8.309003039846257 \\
+            \lambda_1 & = 10.03675166137216 \\
+            \mu_1 & = 8.314045164121694 \\
             \alpha_1 & = 205 \\
-            \beta_1 & = 9.360154855533919
+            \beta_1 & = 33.01765022657346
         \end{array}
     \right.
 \end{equation*}
 
-\noindent e o intervalo de confiança sendo o intervalo $(8.176218214379208, 8.441787865313305)$.
+\noindent e o intervalo de confiança sendo o intervalo $(8.065026690836966, 8.563063637406422)$.
 
-Por fim, no caso em que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{10}$, temos:
+Por fim, no caso em que $\frac{\beta_0}{\alpha_0} = \frac{1}{10}$, temos:
 \begin{equation*}
     \left\{
         \begin{array}{ll}
@@ -422,19 +422,19 @@ Podemos ver essas distribuições de $\mu$ graficamente. Em ciano temos as distr
 \begin{multicols}{2}
     \begin{figure}[H]
         \includegraphics[page = 1]{3º Trabalho/Tikz2.pdf}
-        \caption{Caso em que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{4}$.}
+        \caption{Caso em que $\frac{\beta_0}{\alpha_0} = \frac{1}{4}$.}
     \end{figure}
     \begin{figure}[H]
         \includegraphics[page = 2]{3º Trabalho/Tikz2.pdf}
-        \caption{Caso em que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{25}$.}
+        \caption{Caso em que $\frac{\beta_0}{\alpha_0} = \frac{1}{25}$.}
     \end{figure}
     \begin{figure}[H]
         \includegraphics[page = 1]{3º Trabalho/Tikz3.pdf}
-        \caption{Caso em que $\frac{\beta_0^2}{\alpha_0} = \frac{29}{200}$.}
+        \caption{Caso em que $\frac{\beta_0}{\alpha_0} = \frac{29}{200}$.}
     \end{figure}
     \begin{figure}[H]
         \includegraphics[page = 2]{3º Trabalho/Tikz3.pdf}
-        \caption{Caso em que $\frac{\beta_0^2}{\alpha_0} = \frac{1}{10}$.}
+        \caption{Caso em que $\frac{\beta_0}{\alpha_0} = \frac{1}{10}$.}
     \end{figure}
 \end{multicols}
 
