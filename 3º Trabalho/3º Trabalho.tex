@@ -262,7 +262,9 @@ Após termos visto o desenvolvimento das distribuições a posteriori vamos ilus
     \end{enumerate}
 \end{example}
 
-Nesse exemplo, apesar de parecer que não é possível encontrar a distribuição a posteriori de $\mu$ e $\tau$, é possível sim, conforme visto anteriormente, encontrar tal distribuição.
+Nesse exemplo, apesar de parecer que não é possível encontrar a distribuição a posteriori de $\mu$ e $\tau$, é possível sim, conforme visto anteriormente, encontrar tal distribuição. Abaixo temos duas soluções.
+
+\subsubsection*{Uma solução}
 
 Primeiramente, note que, dados $\lambda_0$, $\mu_0$, $\alpha_0$ e $\beta_0$, necessitamos apenas de $n$, $\overline{x}_n$ e $\overline{s}_n^2$ para computar os parâmetros da distribuição a posteriori, a qual já vimos ser Normal-Gama. Agora, perceba que Valciclei fez suas estatística baseado em dados de dez pamonhas, ou seja, $n = 10$. Além disso, as estatísticas que Valciclei conseguiu anotar antes de fazer sua visita de emergência ao banheiro foram, justamente, a média amostral $\left(\overline{x}_n\right)$ e a variância amostral $\left(\overline{s}_n^2\right)$.
 
@@ -295,7 +297,7 @@ Note que, dessa forma, escolhendo $\alpha_0$, já temos o valor de $\beta_0$. Ag
 Note que agora nosso problema passa a ser determinar um valor para $Var(\mu)$, o que podemos fazer de forma similar ao que DeGroot fez em seu exemplo 8.6.3, dividindo a variância amostral entre $Var(\mu)$ e $E[\tau]$. Fazendo
 \[Var(\mu) = \dfrac{\overline{s}_n^2}{2} = 3.965226 \text{ e } E[\tau] = \dfrac{1}{\frac{\overline{s}_n^2}{2}} = \dfrac{1}{3.965226},\]
 
-\noindent já temos o valor de $Var(\mu)$ e, consequentemente, podemos encontrar $\lambda_0$ ao tomar um $\alpha_0 > 1$ e, além disso, obtemos que o valor esperado de $\tau$ está próximo a $\frac{1}{4}$, que é o que Palmirinha estava supondo. Dessa forma, podemos fazer as contas nos quatro casos dados acima. Para isso, necessitamos escolher um valor para $\alpha_0$, assim, optarei por sempre escolher o valor que se encontra no denominador da fração que representa $\frac{\beta_0}{\alpha_0}$. Consequentemente, $\beta_0$ sempre o numerador da fração. Os cálculos de $\lambda_0$, bem como dos hiperparâmetros a posteriori e do intervalo de confiança foram realizados em um Notebook com Python 3.
+\noindent já temos o valor de $Var(\mu)$ e, consequentemente, podemos encontrar $\lambda_0$ ao tomar um $\alpha_0 > 1$ e, além disso, obtemos que o valor esperado de $\tau$ está próximo a $\frac{1}{4}$, que é o que Palmirinha estava supondo. Dessa forma, podemos fazer as contas nos quatro casos dados acima. Para isso, necessitamos escolher um valor para $\alpha_0$, assim, optarei por sempre escolher o valor que se encontra no denominador da fração que representa $\frac{\beta_0}{\alpha_0}$. Consequentemente, $\beta_0$ sempre o numerador da fração. Os cálculos de $\lambda_0$, bem como dos hiperparâmetros a posteriori e do intervalo de credibilidade foram realizados em um Notebook com Python 3.
 
 Assim, no primeiro caso, onde $\frac{\beta_0}{\alpha_0} = \frac{1}{4}$, temos:
 \begin{equation*}
@@ -305,7 +307,7 @@ Assim, no primeiro caso, onde $\frac{\beta_0}{\alpha_0} = \frac{1}{4}$, temos:
             \beta_0 & = 1 \\
             \mu_0 & = 10 \\
             Var(\mu) & = 3.965226 \\
-            n & = 20 \\
+            n & = 10 \\
             \overline{x}_n & = 8.307849 \\
             \overline{s}_n^2 & = 7.930452
         \end{array}
@@ -325,7 +327,7 @@ Assim, no primeiro caso, onde $\frac{\beta_0}{\alpha_0} = \frac{1}{4}$, temos:
     \right.
 \end{equation*}
 
-\noindent e o intervalo de confiança $(7.824678461062495, 8.819232216870338)$.
+\noindent e o intervalo de credibilidade $(7.824678461062495, 8.819232216870338)$.
 
 Já no segundo caso, quando $\frac{\beta_0}{\alpha_0} = \frac{1}{25}$, temos:
 \begin{equation*}
@@ -335,7 +337,7 @@ Já no segundo caso, quando $\frac{\beta_0}{\alpha_0} = \frac{1}{25}$, temos:
             \beta_0 & = 1 \\
             \mu_0 & = 10 \\
             Var(\mu) & = 3.965226 \\
-            n & = 20 \\
+            n & = 10 \\
             \overline{x}_n & = 8.307849 \\
             \overline{s}_n^2 & = 7.930452
         \end{array}
@@ -355,7 +357,7 @@ Já no segundo caso, quando $\frac{\beta_0}{\alpha_0} = \frac{1}{25}$, temos:
     \right.
 \end{equation*}
 
-\noindent e o intervalo de confiança $(8.05203362327982, 8.567216874423854)$.
+\noindent e o intervalo de credibilidade $(8.05203362327982, 8.567216874423854)$.
 
 No terceiro dos casos, com $\frac{\beta_0}{\alpha_0} = \frac{29}{200}$, temos:
 \begin{equation*}
@@ -365,7 +367,7 @@ No terceiro dos casos, com $\frac{\beta_0}{\alpha_0} = \frac{29}{200}$, temos:
             \beta_0 & = 29 \\
             \mu_0 & = 10 \\
             Var(\mu) & = 3.965226 \\
-            n & = 20 \\
+            n & = 10 \\
             \overline{x}_n & = 8.307849 \\
             \overline{s}_n^2 & = 7.930452
         \end{array}
@@ -385,7 +387,7 @@ No terceiro dos casos, com $\frac{\beta_0}{\alpha_0} = \frac{29}{200}$, temos:
     \right.
 \end{equation*}
 
-\noindent e o intervalo de confiança sendo o intervalo $(8.065026690836966, 8.563063637406422)$.
+\noindent e o intervalo de credibilidade sendo o intervalo $(8.065026690836966, 8.563063637406422)$.
 
 Por fim, no caso em que $\frac{\beta_0}{\alpha_0} = \frac{1}{10}$, temos:
 \begin{equation*}
@@ -395,7 +397,7 @@ Por fim, no caso em que $\frac{\beta_0}{\alpha_0} = \frac{1}{10}$, temos:
             \beta_0 & = 1 \\
             \mu_0 & = 10 \\
             Var(\mu) & = 3.965226 \\
-            n & = 20 \\
+            n & = 10 \\
             \overline{x}_n & = 8.307849 \\
             \overline{s}_n^2 & = 7.930452
         \end{array}
@@ -415,9 +417,9 @@ Por fim, no caso em que $\frac{\beta_0}{\alpha_0} = \frac{1}{10}$, temos:
     \right.
 \end{equation*}
 
-\noindent e o intervalo de confiança resultante é o intervalo $(7.940037725332982, 8.68511705725481)$.
+\noindent e o intervalo de credibilidade resultante é o intervalo $(7.940037725332982, 8.68511705725481)$.
 
-Podemos ver essas distribuições de $\mu$ graficamente. Em ciano temos as distribuições a priori, já em azul é a posteriori e, em vermelho, o intervalo de confiança. Assim, temos as seguintes distribuições:
+Podemos ver essas distribuições de $\mu$ graficamente. Em ciano temos as distribuições a priori, já em azul é a posteriori e, em vermelho, o intervalo de credibilidade. Assim, temos as seguintes distribuições:
 
 \begin{multicols}{2}
     \begin{figure}[H]
@@ -438,13 +440,83 @@ Podemos ver essas distribuições de $\mu$ graficamente. Em ciano temos as distr
     \end{figure}
 \end{multicols}
 
-Dessa forma, podemos ver que o intervalo de confiança varia conforme nossa escolha de priori. E, como estamos sob o paradigma bayesiano, podemos interpretar o intervalo de confiança de 95\% como um intervalo em que temos 95\% de probabilidade de $\mu$ estar ali.
+Dessa forma, podemos ver que o intervalo de credibilidade varia conforme nossa escolha de priori. E, como estamos sob o paradigma bayesiano, podemos interpretar o intervalo de credibilidade de 95\% como um intervalo em que temos 95\% de probabilidade de $\mu$ estar ali.
+
+\subsubsection*{Uma outra solução}
+
+De forma análoga a anterior, precisamos apenas encontrar os valores de $\mu_0$, $\alpha_0$, $\beta_0$ e $\mu_0$. Feito isso, podemos fazer o cálculo da posteriori, isto é, a atualização desses parâmetros.
+
+De acordo com o enunciado, Palmirinha acha que $\mu$ tem média $10$ e desvio padrão igual a $2$, ou seja, tomando $\alpha_0 > \frac{1}{2}$, podemos dizer que, pelo Teorema 8.6.3 do DeGroot \cite{degroot}, $E[\mu] = \mu_0$. Dessa forma, podemos definir $\mu_0 = 10$ e, por enquanto, $\alpha_0 > \frac{1}{2}$. Além disso, o mesmo teorema afirma que, se $\alpha_0 > 1$, então
+\[Var(\mu) = \dfrac{\beta_0}{\lambda_0 \left(\alpha_0 - 1\right)} \implies \lambda_0 = \dfrac{\beta_0}{Var(\mu) \left(\alpha_0 - 1\right)},\]
+
+\noindent ou seja, escolhendo $Var(\mu) = 4$, conforme suspeita a priori de Palmirinha, temos $\lambda_0$ a partir das escolhas e $\beta_0$ e $\alpha_0$, com este último maior que $1$.
+
+Agora, manipulando o coeficiente de variação, temos que
+\begin{equation*}
+    \begin{split}
+        \operatorname{cv} & = \dfrac{\sigma}{\mu} \\
+        & = \dfrac{\sqrt{\sigma^2}}{\mu} \\
+        & = \dfrac{\sqrt{\tau^{-1}}}{\mu} \\
+        & = \dfrac{1}{\mu \sqrt{\tau}}.
+    \end{split}
+\end{equation*}
+
+Assim, se temos que o coeficiente de variação é de $\frac{1}{2}$, conforme suspeita da Palmirinha, então vale que
+\[\dfrac{1}{2} = \dfrac{1}{\mu \sqrt{\tau}} \implies \tau = \dfrac{4}{\mu^2}.\]
+
+Agora, podemos supor um $\mu$ fixo, dessa forma, temos que
+\[E[\tau] = \dfrac{4}{\mu^2}.\]
+
+Escolhendo para fixar $\mu$ podemos pensar em tomar $\mu_0$ como valor para $\mu$, o que é razoável dado que $\mu_0$ é a média e a moda a priori para $\mu$. Dessa forma, temos que
+\[\dfrac{\alpha_0}{\beta_0} = \dfrac{4}{\mu_0^2} \implies \dfrac{\alpha_0}{\beta_0} = \dfrac{1}{25}.\]
+
+Como temos que $\alpha_0 > 1$, podemos tomar $\alpha_0 = 2$ e, consequentemente, $\beta_0 = 50$. Dessa forma,
+\[\lambda_0 = \dfrac{50}{4 \left(2 - 1\right)} = \dfrac{25}{2}\]
+
+\noindent e, com isso, podemos atualizar os parâmetros. Temos
+\begin{equation*}
+    \left\{
+        \begin{array}{ll}
+            \alpha_0 & = 2 \\
+            \beta_0 & = 50 \\
+            \mu_0 & = 10 \\
+            Var(\mu) & = 4 \\
+            n & = 10 \\
+            \overline{x}_n & = 8.307849 \\
+            \overline{s}_n^2 & = 7.930452 \\
+            \lambda_0 & = 12.5,
+        \end{array}
+    \right.
+\end{equation*}
+
+\noindent o que nos gera os seguintes parâmetros a posteriori:
+\begin{equation*}
+    \left\{
+        \begin{array}{ll}
+            \lambda_1 & = 22.5 \\
+            \mu_1 & = 9.247932888888888 \\
+            \alpha_1 & = 7 \\
+            \beta_1 & = 61.91904546333612
+        \end{array}
+    \right.
+\end{equation*}
+
+\noindent e o intervalo de credibilidade igual a $(7.903138300680498, 10.592727477097279)$.
+
+
+
+
+
+
+
+
+
 
 \section*{Conclusão}
 
 Já no início pudemos ter uma boa ideia do significado da precisão, sendo visualizada como uma métrica de proximidade dos dados em relação a média. Após isso passamos a fazer uma análise bayesiana com a normal com média e precisão desconhecidas. Feita a análise, descobrimos mais uma família conjugada, agora com duas distribuições a priori. Além disso, a visualização de $\lambda_0$ como um nível de certeza a priori acabou deixando o cálculo da média a posteriori, $\mu_1$, um pouco mais intuitivo. Além dele, vimos que $\alpha_0$ e $\beta_0$ são hiperparâmetros que irão contribuir na forma da posteriori de $\mu$, ditando a concentração em torno de $\mu_1$.
 
-Chegando no exemplo vimos que a escolha da priori tem certa relevância no cálculo da posteriori, embora os intervalos de confiança que foram geram ficaram próximos. Ou seja, a priori pode ser gerada de diversas formas, a depender da interpretação de quem vai elaborá-la, mas a posteriori será similar, mesmo com prioris diferentes.
+Chegando no exemplo vimos que a escolha da priori tem certa relevância no cálculo da posteriori, embora os intervalos de credibilidade que foram geram ficaram próximos. Ou seja, a priori pode ser gerada de diversas formas, a depender da interpretação de quem vai elaborá-la, mas a posteriori será similar, mesmo com prioris diferentes.
 
 Por fim, talvez seria interessante alguém falar com Palmirinha para ela buscar um assistente menos guloso e, principalmente, guardar seus parâmetros de priori em um quadrinho ao lado do quadro com o $\operatorname{cv}$.
 
