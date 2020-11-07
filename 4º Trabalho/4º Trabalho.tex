@@ -1,0 +1,107 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuges]{babel}
+\usepackage{csquotes}
+\usepackage{geometry}
+\usepackage[pdftex]{hyperref}
+\usepackage{indentfirst}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{verbatim}
+
+\newtheorem{definition}{Definição}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{example}{Exemplo}
+
+\usepackage[backend = biber]{biblatex}
+\addbibresource{quarto_trabalho.bib}
+
+\geometry{left = 3cm, top = 3cm, bottom = 2cm, right = 2cm}
+
+\title{Inferência Estatística \\ 4º Trabalho}
+\author{Igor Patrício Michels}
+\date{18/11/2020}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introdução}
+
+Trabalho elaborado pelo aluno Igor Patrício Michels referente a disciplina de Inferência Estatística, do quarto período da Graduação em Matemática Aplicada da FGV-EMAp. Nele iremos abordar o conceito de teste uniformemente mais poderoso.
+
+O enunciado e eventuais funções utilizadas para resolução deste ou de outros trabalhos podem ser encontrados \href{https://github.com/IgorMichels/Statistical_Inference}{\textbf{nesse repositório do GitHub}}.
+
+\section*{Teste Uniformemente Mais Poderoso}
+
+\subsection*{Contextualizando}\label{contexto}
+
+Em 2008 fui passar minhas férias em Gotham City. Confesso que as férias não foram das melhores, a cidade estava um caos. Aparentemente um palhaço não gostava de morcegos e estava numa tremenda batalha com um tal de homem morcego. Pelo que soube esse tal homem morcego era uma espécia de herói na cidade. Certo dia eu estava caminhando pela rua e encontrei um possível vítima desse palhaço, ele havia explodido um hospital no dia anterior. O homem que encontrei parecia ter saído de um transplante facial, o qual não tinha sido finalizado e o homem estava meio cara, meio... coroa. Acho que ele ão foi com minha cara quando perguntei por que ele estava dessa forma e disse que iria lançar sua moeda e, se o resultado fosse $C$ (cara), me daria uns cascudos. Tentei chamar esse tal de homem morcego, mas parece que aquele palhaço estava interessado em explodir uns barcos, então quem sou eu no meio dessa crise toda? Achei válido o tal do homem morcego se interessar em evitar as explosões. No fim, acabei pedindo para esse cara da moedinha decidir se me daria os cascudos pela moeda mesmo mas antes lançar a moedas algumas vezes para mim ter uma ideia do meu futuro. Surpreendentemente ele aceita, falando que sou um cara engraçado então poderia me fazer esse favor, mas que eu não escaparia dessa sem ele lançar a moeda. Ele lançou a moeda $10$ vezes e obteve a sequência
+\[\text{KCKCKCCKKK}.\]
+
+Como ele caiu na minha e fez esses lançamentos pude fazer alguns testes a respeito da moeda e analisar se valeria a pena tentar fugir desse sujeito, talvez tomando dois cascudos por isso, ou se ficaria e deixaria o destino a cargo da moeda.
+
+Antes de ver o que aconteceu comigo, vamos ver algumas definições e ideias.
+
+\subsection*{Definições}
+
+Conforme seção anterior, iremos tomar algumas definições nessa subseção, as quais também podem ser encontradas no DeGroot \cite{degroot}.
+
+Sejam $\delta$ um procedimento de teste, $\alpha(\delta)$ o tamanho do teste $\delta$ e $\pi(\theta \mid \delta)$ a função poder do teste, podemos definir um Teste Uniformemente Mais Poderoso como
+\begin{definition}[Teste Uniformemente Mais Poderoso]
+    Dadas duas hipóteses $H_0 : \theta \in \Omega_0$ e $H_1 : \theta \in \Omega_1$ dizemos que um procedimento $\delta^*$ é uniformemente mais poderoso sob as hipóteses $H_0$ e $H_1$ no nível de significância $\alpha_0$ se $\alpha(\delta^*) \leq \alpha_0$ e, para todo procedimento $\delta$ de modo que $\alpha(\delta) \leq \alpha_0$, vale que
+    \[\pi(\theta \mid \delta) \leq \pi(\theta \mid \delta^*), \forall ~\theta \in \Omega_1.\]
+\end{definition}
+
+Uma outra definição importante se é a definição de Razão de Verossimilhança Monotônica
+\begin{definition}[Razão de Verossimilhança Monotônica]
+    Seja $f_n(x \mid \theta)$ a função de densidade conjunta das observações $X = \left(X_1, ~X_2, ~\dots, ~X_n\right)$ e $T = r(X)$ uma estatística. Dizemos que a distribuição conjunta de $X$ tem razão de verossimilhança monotônica (MLR) na estatística $T$ se para todo par de valores $\theta_1, \theta_2 \in \Omega$, com $\theta_1 < \theta_2$, a razão
+    \begin{equation}
+        \label{MLR}
+        \dfrac{f_n(x \mid \theta_2)}{f_n(x \mid \theta_1)}
+    \end{equation}
+    
+    \noindent depende do vetor de observações apenas por meio da estatística $T$ e a razão acima é uma função monótona de $T$ na imagem de $r(x)$.
+\end{definition}
+
+Por fim, podemos fazer uma última definição
+\begin{definition}[Razão de Verossimilhança Monotônica Crescente e Razão de Verossimilhança Monotônica Decrescente]
+    Dizemos que $X$ tem Razão de Verossimilhança Monotônica Crescente quando a razão \ref{MLR} é crescente e que $X$ tem Razão de Verossimilhança Monotônica Decrescente quando a razão \ref{MLR} é decrescente.
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{Conclusão}
+
+Em primeiro lugar, pude concluir nas férias que palhaços e bananas pode resultar numa combinação explosiva. Além disso, vi que a frase ``nunca fale com estranhos na rua'' realmente é muito válida.
+
+\begin{comment}
+Já no início pudemos ter uma boa ideia do significado da precisão, sendo visualizada como uma métrica de proximidade dos dados em relação a média. Após isso passamos a fazer uma análise bayesiana com a normal com média e precisão desconhecidas. Feita a análise, descobrimos mais uma família conjugada, agora com duas distribuições a priori. Além disso, a visualização de $\lambda_0$ como um nível de certeza a priori acabou deixando o cálculo da média a posteriori, $\mu_1$, um pouco mais intuitivo. Além dele, vimos que $\alpha_0$ e $\beta_0$ são hiperparâmetros que irão contribuir na forma da posteriori de $\mu$, ditando a concentração em torno de $\mu_1$.
+
+Chegando no exemplo vimos que a escolha da priori tem certa relevância no cálculo da posteriori, embora os intervalos de credibilidade que foram gerados ficaram próximos. Além disso, vimos que a medida em que $n$ cresce essa relevância  da priori diminui. Ou seja, a priori pode ser gerada de diversas formas, a depender da interpretação de quem vai elaborá-la, mas a posteriori nos dará resultados similares e, com uma grande amostragem, as posterioris tendem a uma mesma distribuição.
+
+Assim, uma das maiores lições desse trabalho é que elicitar prioris pode ser muito complicado, podendo ser considerada uma arte na qual o ponto de vista e interpretação do artista pode ser crucial para obtermos um resultado razoável ou então um totalmente descartável.
+
+Por fim, talvez seria interessante alguém falar com Palmirinha para ela buscar um assistente menos comilão, imagine ele fazendo uma amostragem de $100$ pamonhas!
+
+\end{comment}
+
+\printbibliography
+
+
+\end{document}
