@@ -1,0 +1,38 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{xcolor}
+\pgfplotsset{compat = 1.16}
+
+\begin{document}
+    \begin{tikzpicture}
+        \begin{axis}[no markers, domain = -0.5:10.5, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper, axis on top]
+            \addplot [draw = black, domain = 0:1] {59049/1048576} \closedcycle;
+            \addplot [draw = black, domain = 1:2] {98415/524288} \closedcycle;
+            \addplot [draw = black, domain = 2:3] {295245/1048576} \closedcycle;
+            \addplot [draw = black, domain = 3:4] {32805/131072} \closedcycle;
+            \addplot [draw = black, domain = 4:5] {76545/524288} \closedcycle;
+            \addplot [draw = black, domain = 5:6] {15309/262144} \closedcycle;
+            \addplot [draw = black, domain = 6:7] {8505/524288} \closedcycle;
+            \addplot [draw = black, domain = 7:8] {405/131072} \closedcycle;
+            \addplot [draw = black, domain = 8:9] {405/1048576} \closedcycle;
+            \addplot [draw = black, domain = 9:10] {15/524288} \closedcycle;
+            \addplot [draw = black, domain = 10:11] {1/1048576} \closedcycle;
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[no markers, domain = -0.5:10.5, samples = 100, height = 5 cm, width = 8 cm, enlargelimits = upper, axis on top]
+            \addplot [draw = black, domain = 0:1] {59049/1048576};
+            \addplot [draw = black, domain = 1:2] {59049/1048576 + 98415/524288};
+            \addplot [draw = black, domain = 2:3] {59049/1048576 + 98415/524288 + 295245/1048576};
+            \addplot [draw = black, domain = 3:4] {59049/1048576 + 98415/524288 + 295245/1048576 + 32805/131072};
+            \addplot [draw = black, domain = 4:5] {59049/1048576 + 98415/524288 + 295245/1048576 + 32805/131072 + 76545/524288};
+            \addplot [draw = black, domain = 5:6] {59049/1048576 + 98415/524288 + 295245/1048576 + 32805/131072 + 76545/524288 + 15309/262144};
+            \addplot [draw = black, domain = 6:7] {59049/1048576 + 98415/524288 + 295245/1048576 + 32805/131072 + 76545/524288 + 15309/262144 + 8505/524288};
+            \addplot [draw = black, domain = 7:8] {59049/1048576 + 98415/524288 + 295245/1048576 + 32805/131072 + 76545/524288 + 15309/262144 + 8505/524288 + 405/131072};
+            \addplot [draw = black, domain = 8:9] {59049/1048576 + 98415/524288 + 295245/1048576 + 32805/131072 + 76545/524288 + 15309/262144 + 8505/524288 + 405/131072 + 405/1048576};
+            \addplot [draw = black, domain = 9:10] {59049/1048576 + 98415/524288 + 295245/1048576 + 32805/131072 + 76545/524288 + 15309/262144 + 8505/524288 + 405/131072 + 405/1048576 + 15/524288};
+            \addplot [draw = black, domain = 10:11] {59049/1048576 + 98415/524288 + 295245/1048576 + 32805/131072 + 76545/524288 + 15309/262144 + 8505/524288 + 405/131072 + 405/1048576 + 15/524288 + 1/1048576};
+        \end{axis}
+    \end{tikzpicture}
+\end{document}
