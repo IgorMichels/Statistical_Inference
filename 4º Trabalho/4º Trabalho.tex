@@ -178,8 +178,17 @@ Mas aqui estamos tratando de variáveis Bernoulli, onde sabemos que a quantidade
 
 
 
+\subsection*{Desafio ao leitor}
 
+Facilmente podemos ver que no nosso contexto não podemos atingir qualquer nível $\alpha_0$, pois estamos trabalhando com variáveis discretas, ou seja, nossa função é uma função ``escada'', cheia de degraus, veja:
+\begin{figure}[H]
+    \includegraphics[page = 1]{Tikz.pdf}
+    \includegraphics[page = 2]{Tikz.pdf}
+    \caption{à esquerda temos a plotagem da densidade de uma $\operatorname{Bin}(10, 0.25)$ em forma de histograma, já à direita a plotagem da acumulada da mesma.}
+    \label{gaussianas}
+\end{figure}
 
+Note que se traçarmos uma reta $y = \alpha_0$, nem sempre podemos encontrar um valor $k$ de forma que a acumulada da distribuição tenha imagem $\alpha_0$. Como exemplo, se traçarmos a reta $y = 0.2$, como se estivéssemos considerando $\alpha_0 = 0.2$, não temos nenhum ponto $k$ que nos dê um teste de nível $\alpha_0$ no experimento descrito anteriormente. A ideia aqui é que você proponha uma solução para isso, ou seja, mostre como podemos fazer nosso teste de modo que possamos atingir qualquer nível $\alpha_0$ em $(0, 1)$.
 
 \section*{Conclusão}
 
@@ -196,7 +205,19 @@ Por fim, talvez seria interessante alguém falar com Palmirinha para ela buscar 
 
 \end{comment}
 
-\printbibliography
+\section*{Resposta do desafio}
 
+O leitor mais atento provavelmente deve ter relacionado o problema com uma nota de rodapé que apareceu na seção ``Teste UMP e MLR''. Essencialmente, a solução do desafio proposto é exatamente aplicar aquela ideia, ou seja, dado um nível $\alpha_0$ se encontrarmos $c$ de forma que
+\[P(r(X) \geq c \mid \theta = \theta_0) = \alpha_0,\]
+
+\noindent está perfeito e temos nosso teste pronto, caso contrário, isto é, não existe $c$ que satisfaça a relação acima, podemos encontrar um valor $c$ tal que
+\[P(r(X) \geq c \mid \theta = \theta_0) < \alpha_0 \text{ e } P(r(X) \geq c + 1 \mid \theta = \theta_0) > \alpha_0.\]
+
+Agora, se rejeitarmos $H_0$ caso $r(X) \geq c$, o tamanho do teste será menor que $\alpha_0$, mas rejeitando $H_0$ quando $r(X) \geq c + 1$, o tamanho será maior que $\alpha_0$. Nesse caso, a solução é rejeitar $H_0$ se $r(X) \geq c$ e, se $r(X) = c + 1$, rejeitamos $H_0$ com uma probabilidade $q$, a qual será escolhida de forma que
+\[q\cdot P(r(X) = c + 1 \mid \theta = \theta_0) + P(r(X) \geq c \mid \theta = \theta_0) = \alpha_0,\]
+
+\noindent onde conseguimos ter um teste de nível $\alpha_0$.
+
+\printbibliography
 
 \end{document}
