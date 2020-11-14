@@ -49,9 +49,9 @@ Como ele caiu na minha e fez esses lançamentos pude fazer alguns testes a respe
 
 Antes de ver o que aconteceu comigo, vamos ver algumas definições e ideias.
 
-\subsection*{Definições}
+\subsection*{Teste UMP e MLR}
 
-Conforme seção anterior, iremos tomar algumas definições nessa subseção, as quais também podem ser encontradas no DeGroot \cite{degroot}.
+Conforme subseção anterior, iremos, nessa subseção,  tomar algumas definições e ideias, as quais também podem ser encontradas no DeGroot \cite{degroot}.
 
 Sejam $\delta$ um procedimento de teste, $\alpha(\delta)$ o tamanho do teste $\delta$ e $\pi(\theta \mid \delta)$ a função poder do teste, podemos definir um Teste Uniformemente Mais Poderoso como
 \begin{definition}[Teste Uniformemente Mais Poderoso]
@@ -74,6 +74,101 @@ Por fim, podemos fazer uma última definição
 \begin{definition}[Razão de Verossimilhança Monotônica Crescente e Razão de Verossimilhança Monotônica Decrescente]
     Dizemos que $X$ tem Razão de Verossimilhança Monotônica Crescente quando a razão \ref{MLR} é crescente e que $X$ tem Razão de Verossimilhança Monotônica Decrescente quando a razão \ref{MLR} é decrescente.
 \end{definition}
+
+Dadas tais definições, podemos enunciar alguns Teoremas.
+\begin{theorem} \label{teo1}
+    Tome $\delta^*$ um procedimento em que a hipótese $H_0$ não é rejeitada se $a f_0(x) > b f_1(x)$ e a hipótese $H_0$ é rejeitada se $a f_0(x) < b f_1(x)$. Para o caso em que $a f_0(x) = b f_1(x)$ a hipótese $H_0$ pode ser tanto rejeitada quanto não rejeitada. Então, para todo outro procedimento de teste $\delta$ vale que
+    \[a \alpha(\delta^*) + b \beta(\delta^*) \leq a \alpha(\delta) + b \beta(\delta).\]
+\end{theorem}
+
+\begin{proof}
+    A cargo do leitor.
+    \vspace{12pt}
+    
+    \noindent Dica: Veja a seção 9.2 do DeGroot \cite{degroot}.
+\end{proof}
+
+Visto esse teorema, temos o ferramental para provar um outro Teorema:
+
+\begin{theorem}[Lema de Nayman-Pearson]\label{teo2}
+    Suponha que $\delta^*$ é um procedimento de teste que, dada uma constante $k > 0$, a hipótese $H_0$ não é rejeitada se $f_1(x) < k f_0(x)$ e é rejeitada se $f_1(x) > k f_0(x)$. Caso $f_1(x) = k f_0(x)$ a hipótese $H_0$ pode tanto ser rejeitada quanto não rejeitada. Se $\delta$ é um outro procedimento de forma que $\alpha(\delta) \leq \alpha(\delta^*)$, então $\beta(\delta) \geq \beta(\delta^*)$. Além disso, se $\alpha(\delta) < \alpha(\delta^*)$, então $\beta(\delta) > \beta(\delta^*)$.
+\end{theorem}
+
+\begin{proof}
+    Pelo Teorema \ref{teo1}, temos que
+    \[k \alpha(\delta^*) + \beta(\delta^*) \leq k \alpha(\delta) + \beta(\delta) \implies k \left(\alpha(\delta^*) - \alpha(\delta)\right) + \beta(\delta^*) \leq \beta(\delta).\]
+    
+    \noindent Agora, como $\alpha(\delta) \leq \alpha(\delta^*)$, vale que $k \left(\alpha(\delta^*) - \alpha(\delta)\right) \geq 0$, logo, temos que $\beta(\delta) \geq \beta(\delta^*)$. Em especial, se $\alpha(\delta) < \alpha(\delta^*)$, vale que $k \left(\alpha(\delta^*) - \alpha(\delta)\right) > 0$ e então decorre que $\beta(\delta) > \beta(\delta^*)$.
+\end{proof}
+
+\begin{theorem}\label{teo3}
+    Seja $H_0 : \theta = \theta_0, ~\theta_0 \in \Omega$ uma hipótese simples. Se vale o Teorema da Fatoração e existem $c$ e $\alpha_0$ de modo que
+    \[P(r(X) \leq c \mid \theta = \theta_0) = \alpha_0,\]
+    
+    \noindent então o procedimento $\delta^*$ que rejeita $H_0$ se $r(X) \leq c$ é UMP para $H_0$ ao nível $\alpha_0$.
+\end{theorem}
+
+\begin{proof}
+    Em primeiro lugar note que $\alpha(\delta^*) = \alpha_0$, logo $\delta^*$ é um procedimento de teste de nível $\alpha_0$, ou seja, basta provarmos que para todo procedimento $\delta$, com $\alpha(\delta) \leq \alpha_0$, temos
+    \[\pi(\theta \mid \delta) \leq \pi(\theta \mid \delta^*), \forall ~\theta \in \Omega_1.\]
+    
+    Mas perceba que
+    \begin{equation*}
+        \begin{split}
+            \pi(\theta \mid \delta) \leq \pi(\theta \mid \delta^*), \forall ~\theta \in \Omega_1 & \iff 1 - \beta(\theta \mid \delta) \leq 1 - \beta(\theta \mid \delta^*), \forall ~\theta \in \Omega_1 \\
+            & \iff \beta(\theta \mid \delta^*) \leq \beta(\theta \mid \delta), \forall ~\theta \in \Omega_1.
+        \end{split}
+    \end{equation*}
+    
+    Considere agora o procedimento $\delta'$, teste de razão de verossimilhança de nível $k$, isto é, rejeitamos $H_0$ se $\Lambda(x) \leq k$. Dessa forma
+    \begin{equation*}
+        \begin{split}
+            \Lambda(x) \leq k & \iff \dfrac{\sup_{\theta_0 \in \Omega_0} f_n(x \mid \theta)}{\sup_{\theta \in \Omega} f_n(x \mid \theta)} \leq k \\
+            & \overset{(1)}{\iff} \dfrac{f_n\left(x \mid \theta_0\right)}{f_n\left(x \mid \hat{\theta}\right)} \leq k \\
+            & \overset{(2)}{\iff} \dfrac{u(x)\cdot v\left(r(x), \theta_0\right)}{u(x)\cdot v\left(r(x), \hat{\theta}\right)} \leq k \\
+            & \iff \dfrac{v\left(r(x), \theta_0\right)}{v\left(r(x), \hat{\theta}\right)} \leq k,
+        \end{split}
+    \end{equation*}
+    
+    \noindent de onde podemos obter uma relação do tipo $r(x) \leq c$, com $c$ sendo definido em função de $k$. Note que no desenvolvimento acima utilizamo, no passo $(1)$, que $H_0$ é uma hipótese simples e que $\hat{\theta}$ é o MLE. Já no passo $(2)$ utilizamos o fato de que vale o Teorema da Fatoração. Assim, definindo $c$ em função de $k$ e $k$ como o valor que satisfaz
+    \[P\left(\Lambda(x) \leq k \mid \theta_0\right) = \alpha_0,\]
+    
+    \noindent podemos ver que $\delta' = \delta^*$.\footnote{No caso discreto, podemos escolher $q$ e $k$ de forma que $q\cdot P\left(\Lambda(x) = k \mid \theta_0\right) + P\left(\Lambda(x) < k \mid \theta_0\right) = \alpha_0$ e, se $\Lambda(x) = k$, rejeitamos $H_0$ com probabilidade $q$.}
+    
+    Agora, note que
+    \[\dfrac{v\left(r(x), \theta_0\right)}{v\left(r(x), \hat{\theta}\right)} \leq k \iff v\left(r(x), \theta_0\right) \leq k\cdot v\left(r(x), \hat{\theta}\right).\]
+    
+    Fazendo $v\left(r(x), \theta_0\right) = f_1(x)$ e $v\left(r(x), \hat{\theta}\right) = f_0(x)$, dessa forma, podemos dizer que o teste que estamos realizando é equivalente ao teste que não rejeita $H_0' = H_1$ se $f_1(x) \leq k\cdot f_0(x)$. Mas, pelo Teorema \ref{teo2}, isso implica que para todo outro procedimento de teste $\delta$, vale que 
+    \[\beta(\delta) \geq \beta(\delta') = \beta(\delta^*),\]
+    
+    \noindent o que nos mostra que o procedimento $\delta^*$, descrito pelo enunciado, é um teste UMP.
+\end{proof}
+
+\subsection*{Voltando a nosso contexto}
+
+Uma vez que aquele sujeito aceitou lançar a moeda $10$ vezes pude realizar um teste de hipóteses. Como eu levaria um cascudo caso o resultado fosse C, é interessante analisar as hipóteses $H_0 : p \leq \frac{1}{2}$ e $H_1 : p > \frac{1}{2}$, onde $p$ é a probabilidade de eu me dar mal.\footnote{Ou seja, dar cara e eu levar uns cascudos.}
+
+Note que esse caso se dá por $10$ lançamentos independentes de uma moeda com probabilidade $p$ de resultar cara, dessa forma, o espaço de parâmetros se dá pelo intervalo $\Omega = [0, 1]$ e, além disso, temos $\Omega_0 = \left[0, \frac{1}{2}\right]$. Dessa forma, podemos escrever a razão de verossimilhança como
+\[\Lambda(x) = \dfrac{\sup_{\theta_0 \in \Omega_0} f_n(x \mid \theta)}{\sup_{\theta \in \Omega} f_n(x \mid \theta)}.\]
+
+Mas aqui estamos tratando de variáveis Bernoulli, onde sabemos que a quantidade de caras resultantes é uma estatística suficiente, então podemos reescrever
+\begin{equation*}
+    \begin{split}
+        \Lambda(x) & = \dfrac{\sup_{\theta_0 \in \Omega_0} \binom{10}{6} \theta^y(1 - \theta)^{10 - y}}{\sup_{\theta \in \Omega} \binom{10}{6} \theta^y(1 - \theta)^{10 - y}} \\
+        & = \dfrac{\sup_{\theta_0 \in \Omega_0} \theta_0^4(1 - \theta_0)^6}{\sup_{\theta \in \Omega} \theta_1^4(1 - \theta_1)^6},
+    \end{split}
+\end{equation*}
+
+\noindent onde é fácil ver que $\theta_0 = \theta = \frac{2}{5}$, dessa forma
+\[\Lambda(x) = \dfrac{\left(\frac{2}{5}\right)^4\left(1 - \frac{2}{5}\right)^6}{\left(\frac{2}{5}\right)^4\left(1 - \frac{2}{5}\right)^6} = 1.\]
+
+
+
+
+
+
+
+
 
 
 
