@@ -13,6 +13,7 @@
 \usepackage{float}
 \usepackage{multicol}
 \usepackage{verbatim}
+\usepackage{dsfont}
 
 \newtheorem{definition}{Definição}
 \newtheorem{theorem}{Teorema}
@@ -109,39 +110,31 @@ Visto esse teorema, temos o ferramental para provar um outro Teorema:
 \end{theorem}
 
 \begin{proof}
-    Em primeiro lugar note que $\alpha(\delta^*) = \alpha_0$, logo $\delta^*$ é um procedimento de teste de nível $\alpha_0$, ou seja, basta provarmos que para todo procedimento $\delta$, com $\alpha(\delta) \leq \alpha_0$, temos
-    \[\pi(\theta \mid \delta) \leq \pi(\theta \mid \delta^*), \forall ~\theta \in \Omega_1.\]
-    
-    Mas perceba que
-    \begin{equation*}
-        \begin{split}
-            \pi(\theta \mid \delta) \leq \pi(\theta \mid \delta^*), \forall ~\theta \in \Omega_1 & \iff 1 - \beta(\theta \mid \delta) \leq 1 - \beta(\theta \mid \delta^*), \forall ~\theta \in \Omega_1 \\
-            & \iff \beta(\theta \mid \delta^*) \leq \beta(\theta \mid \delta), \forall ~\theta \in \Omega_1.
-        \end{split}
-    \end{equation*}
-    
-    Considere agora o procedimento $\delta'$, teste de razão de verossimilhança de nível $k$, isto é, rejeitamos $H_0$ se $\Lambda(x) \leq k$. Dessa forma
+    Em primeiro lugar, considere o procedimento $\delta'$, teste de razão de verossimilhança de nível $k \in (0, 1)$, isto é, o teste em que rejeitamos $H_0$ se $\Lambda(x) \leq k$. Dessa forma
     \begin{equation*}
         \begin{split}
             \Lambda(x) \leq k & \iff \dfrac{\sup_{\theta_0 \in \Omega_0} f_n(x \mid \theta)}{\sup_{\theta \in \Omega} f_n(x \mid \theta)} \leq k \\
             & \overset{(1)}{\iff} \dfrac{f_n\left(x \mid \theta_0\right)}{f_n\left(x \mid \hat{\theta}\right)} \leq k \\
             & \overset{(2)}{\iff} \dfrac{u(x)\cdot v\left(r(x), \theta_0\right)}{u(x)\cdot v\left(r(x), \hat{\theta}\right)} \leq k \\
-            & \iff \dfrac{v\left(r(x), \theta_0\right)}{v\left(r(x), \hat{\theta}\right)} \leq k,
+            & \iff \dfrac{v\left(r(x), \theta_0\right)}{v\left(r(x), \hat{\theta}\right)} \leq k \\
+            & \iff v\left(r(x), \theta_0\right) \leq k\cdot v\left(r(x), \hat{\theta}\right).
         \end{split}
     \end{equation*}
     
-    \noindent de onde podemos obter uma relação do tipo $r(x) \leq c$, com $c$ sendo definido em função de $k$. Note que no desenvolvimento acima utilizamo, no passo $(1)$, que $H_0$ é uma hipótese simples e que $\hat{\theta}$ é o MLE. Já no passo $(2)$ utilizamos o fato de que vale o Teorema da Fatoração. Assim, definindo $c$ em função de $k$ e $k$ como o valor que satisfaz
-    \[P\left(\Lambda(x) \leq k \mid \theta_0\right) = \alpha_0,\]
+    Agora, fazendo $v\left(r(x), \theta_0\right) = f_1(x)$ e $v\left(r(x), \hat{\theta}\right) = f_0(x)$, dessa forma, podemos dizer que o teste que estamos realizando é equivalente ao teste que não rejeita $H_0' = H_1$ se $f_1(x) \leq k\cdot f_0(x)$. Mas, pelo Teorema \ref{teo2}, isso implica que para todo outro procedimento de teste $\delta$, vale que 
+    \[\beta(\delta) \geq \beta(\delta'),\]
     
-    \noindent podemos ver que $\delta' = \delta^*$.\footnote{No caso discreto, podemos escolher $q$ e $k$ de forma que $q\cdot P\left(\Lambda(x) = k \mid \theta_0\right) + P\left(\Lambda(x) < k \mid \theta_0\right) = \alpha_0$ e, se $\Lambda(x) = k$, rejeitamos $H_0$ com probabilidade $q$.}
+    \noindent o que nos mostra que o procedimento $\delta'$ é um teste UMP.
     
-    Agora, note que
-    \[\dfrac{v\left(r(x), \theta_0\right)}{v\left(r(x), \hat{\theta}\right)} \leq k \iff v\left(r(x), \theta_0\right) \leq k\cdot v\left(r(x), \hat{\theta}\right).\]
+    Agora iremos mostrar que $\delta'$ equivale a $\delta^*$.
     
-    Fazendo $v\left(r(x), \theta_0\right) = f_1(x)$ e $v\left(r(x), \hat{\theta}\right) = f_0(x)$, dessa forma, podemos dizer que o teste que estamos realizando é equivalente ao teste que não rejeita $H_0' = H_1$ se $f_1(x) \leq k\cdot f_0(x)$. Mas, pelo Teorema \ref{teo2}, isso implica que para todo outro procedimento de teste $\delta$, vale que 
-    \[\beta(\delta) \geq \beta(\delta') = \beta(\delta^*),\]
+    Caso $\theta_0 = \hat{\theta}$, teremos que a razão de verossimilhança será igual a $1$ e, com isso, não rejeitamos a hipótese nula. Agora, caso contrário, podemos escrever $\theta_0 = g_1(r(X))$ e $\hat{\theta} = g_2(r(X))$, além de supor que $\theta \in \mathds{R}$. Se $\theta_0 < \hat{\theta}$, temos que a razão de verossimilhança será monotônica. Dessa forma, reescrevemos
+    \[\dfrac{v\left(r(x), g_1(r(X))\right)}{v\left(r(x), g_2(r(X))\right)} \leq k,\]
     
-    \noindent o que nos mostra que o procedimento $\delta^*$, descrito pelo enunciado, é um teste UMP.
+    \noindent de onde vemos que a razão depende apenas da imagem de $r(X)$, então podemos tirar uma relação do tipo $r(x) \leq c$. Caso contrário, isto é, $\theta_0 > \hat{\theta}$, a razão
+    \[\dfrac{v\left(r(x), g_2(r(X))\right)}{v\left(r(x), g_1(r(X))\right)} \geq \dfrac{1}{k},\]
+    
+    \noindent também é monotônica dependendo apenas da imagem de $r(X)$, valendo o mesmo que o caso anterior. Dessa forma, conclui-se que os testes $\delta^*$ é equivalente a $\delta'$, ou seja, $\delta^*$ como descrito no enunciado é UMP.
 \end{proof}
 
 \subsection*{Voltando a nosso contexto}
@@ -154,69 +147,62 @@ Note que esse caso se dá por $10$ lançamentos independentes de uma moeda com p
 Mas aqui estamos tratando de variáveis Bernoulli, onde sabemos que a quantidade de caras resultantes é uma estatística suficiente, então podemos reescrever
 \begin{equation*}
     \begin{split}
-        \Lambda(x) & = \dfrac{\sup_{\theta_0 \in \Omega_0} \binom{10}{6} \theta^y(1 - \theta)^{10 - y}}{\sup_{\theta \in \Omega} \binom{10}{6} \theta^y(1 - \theta)^{10 - y}} \\
-        & = \dfrac{\sup_{\theta_0 \in \Omega_0} \theta_0^4(1 - \theta_0)^6}{\sup_{\theta \in \Omega} \theta_1^4(1 - \theta_1)^6},
+        \Lambda(x) & = \dfrac{\sup_{\theta \in \Omega_0} \binom{n}{y} \theta^y(1 - \theta)^{n - y}}{\sup_{\theta \in \Omega} \binom{n}{y} \theta^y(1 - \theta)^{n - y}} \\
+        & = \dfrac{\sup_{\theta \in \Omega_0} \theta^4(1 - \theta)^6}{\sup_{\theta \in \Omega} \theta^4(1 - \theta)^6},
     \end{split}
 \end{equation*}
 
 \noindent onde é fácil ver que $\theta_0 = \theta = \frac{2}{5}$, dessa forma
-\[\Lambda(x) = \dfrac{\left(\frac{2}{5}\right)^4\left(1 - \frac{2}{5}\right)^6}{\left(\frac{2}{5}\right)^4\left(1 - \frac{2}{5}\right)^6} = 1.\]
+\[\Lambda(x) = \dfrac{\left(\frac{2}{5}\right)^4\left(1 - \frac{2}{5}\right)^6}{\left(\frac{2}{5}\right)^4\left(1 - \frac{2}{5}\right)^6} = 1,\]
 
+\noindent onde vemos que a hipótese $H_0$ não seria rejeitada no teste de razão de verossimilhança.
 
+Além disso, reescrevendo essa razão de verossimilhança como 
+\[\Lambda(x) = \dfrac{\theta_0^y(1 - \theta_0)^{n - y}}{\hat{\theta}^y(1 - \hat{\theta})^{n - y}} = \left(\dfrac{\theta_0\left(1 - \hat{\theta}\right)}{\hat{\theta}\left(1 - \theta_0\right)}\right)^y \left(\dfrac{1 - \theta_0}{1 - \hat{\theta}}\right)^n,\]
 
+\noindent onde podemos ver que temos uma razão de verossimilhança monotônica na estatística $y$, que representa a quantidade de caras que foram obtidas. Dessa forma, aplicando, de forma adaptada para o caso discreto, o teorema 9.3.1 do DeGroot \cite{degroot}, temos que o teste que rejeita $H_0$ no nível $\alpha_0$ é o teste que rejeita $H_0$ se $y \geq c$, onde $c$ é tal que
+\[P\left(y \leq c \mid \theta = \dfrac{1}{2}\right) = \alpha_0.\]
 
+Tomando $\alpha_0 = 0.1$, temos que iremos rejeitar $H_0$ se $y \geq 8$, sendo esse um teste UMP para esse caso. Como obtivemos um total de $4$ caras, não temos como rejeitar a hipótese $H_0$, dessa forma, optei não fugir do sujeito que queria me dar uns cascudos.
 
+Entretanto, apesar do teste não rejeitar a hipótese de que $\theta_0 \leq \frac{1}{2}$, surgiu uma outra oportunidade para mim\footnote{Curiosamente, uma outra jogada de sorte!}, um outro homem estava se aproximando de nós dois com uma sacola de moedas a serem trocadas, então pensei ``esse sujeito aí só pode decidir se vai me dar uns cascudos através da moedinha se ele souber qual a moedinha'', dessa forma, quando o homem que estava com a sacola de moedas se aproximou eu pedi para que ele decidisse sobre meu cascudo e, enquanto a moeda estava no ar, lancei a sacola de moedas no ar e saí correndo enquanto o sujeito lá buscava por sua moedinha.
 
-
-
-
-
-
-
-
-
-
-
+Moral: o teste de hipóteses me inclinou a aceitar que ele lançasse a moedinha para ver minha sorte, mas minha sorte foi, na verdade, o homem com a sacola de moedas!
 
 \subsection*{Desafio ao leitor}
 
-Facilmente podemos ver que no nosso contexto não podemos atingir qualquer nível $\alpha_0$, pois estamos trabalhando com variáveis discretas, ou seja, nossa função é uma função ``escada'', cheia de degraus, veja:
-\begin{figure}[H]
+Facilmente podemos ver que no nosso contexto não podemos atingir qualquer nível $\alpha_0$. Isso se dá pelo fato de estarmos trabalhando com variáveis discretas, ou seja, nossa função é uma função ``escada'', cheia de degraus, veja a Figura \ref{binomial} para uma ilustração desse fato.
+\begin{figure}
     \includegraphics[page = 1]{Tikz.pdf}
     \includegraphics[page = 2]{Tikz.pdf}
-    \caption{à esquerda temos a plotagem da densidade de uma $\operatorname{Bin}(10, 0.25)$ em forma de histograma, já à direita a plotagem da acumulada da mesma.}
-    \label{gaussianas}
+    \caption{à esquerda, com a ideia de ilustrar, temos a plotagem da densidade de uma $\operatorname{Bin}(10, 0.5)$ em forma de histograma, já à direita a plotagem da acumulada da mesma.}
+    \label{binomial}
 \end{figure}
 
-Note que se traçarmos uma reta $y = \alpha_0$, nem sempre podemos encontrar um valor $k$ de forma que a acumulada da distribuição tenha imagem $\alpha_0$. Como exemplo, se traçarmos a reta $y = 0.2$, como se estivéssemos considerando $\alpha_0 = 0.2$, não temos nenhum ponto $k$ que nos dê um teste de nível $\alpha_0$ no experimento descrito anteriormente. A ideia aqui é que você proponha uma solução para isso, ou seja, mostre como podemos fazer nosso teste de modo que possamos atingir qualquer nível $\alpha_0$ em $(0, 1)$.
+Note que nem toda reta do tipo $y = \alpha_0$ intersecta a função de probabilidade acumulada, ou seja, nem sempre podemos encontrar um valor $k$ de forma que a acumulada da distribuição tenha imagem $\alpha_0$. Como exemplo, se traçarmos a reta $y = 0.1$, como se estivéssemos considerando $\alpha_0 = 0.1$, não temos nenhum ponto $k$ que nos dê um teste de nível $0.1$ no experimento descrito anteriormente.
+
+A ideia aqui é que você proponha uma solução para isso, ou seja, mostre como podemos fazer nosso teste de modo que possamos atingir qualquer nível $\alpha_0$ em $(0, 1)$.
 
 \section*{Conclusão}
 
-Em primeiro lugar, pude concluir nas férias que palhaços e bananas pode resultar numa combinação explosiva. Além disso, vi que a frase ``nunca fale com estranhos na rua'' realmente é muito válida.
+Em primeiro lugar, pude concluir nas férias que palhaços e bananas pode resultar numa combinação explosiva. Além disso, vi que a frase ``nunca fale com estranhos na rua'' realmente é muito válida e que moedas, além de facilitarem seu troco, podem te auxiliar a sair de algumas furadas, embora possam te colocar em outras.
 
-\begin{comment}
-Já no início pudemos ter uma boa ideia do significado da precisão, sendo visualizada como uma métrica de proximidade dos dados em relação a média. Após isso passamos a fazer uma análise bayesiana com a normal com média e precisão desconhecidas. Feita a análise, descobrimos mais uma família conjugada, agora com duas distribuições a priori. Além disso, a visualização de $\lambda_0$ como um nível de certeza a priori acabou deixando o cálculo da média a posteriori, $\mu_1$, um pouco mais intuitivo. Além dele, vimos que $\alpha_0$ e $\beta_0$ são hiperparâmetros que irão contribuir na forma da posteriori de $\mu$, ditando a concentração em torno de $\mu_1$.
+Fora essas conclusões, podemos ver que, em alguns casos, é mais simples e eficaz realizar um procedimento de teste a partir de uma estatística suficiente, tanto pela simplicidade do teste quanto pelos resultados, principalmente quando esse procedimento for UMP. Note que basta comparar a estatística com um valor real para rejeitar ou não a hipótese nula, ou seja, é um teste relativamente simples de ser aplicado.
 
-Chegando no exemplo vimos que a escolha da priori tem certa relevância no cálculo da posteriori, embora os intervalos de credibilidade que foram gerados ficaram próximos. Além disso, vimos que a medida em que $n$ cresce essa relevância  da priori diminui. Ou seja, a priori pode ser gerada de diversas formas, a depender da interpretação de quem vai elaborá-la, mas a posteriori nos dará resultados similares e, com uma grande amostragem, as posterioris tendem a uma mesma distribuição.
-
-Assim, uma das maiores lições desse trabalho é que elicitar prioris pode ser muito complicado, podendo ser considerada uma arte na qual o ponto de vista e interpretação do artista pode ser crucial para obtermos um resultado razoável ou então um totalmente descartável.
-
-Por fim, talvez seria interessante alguém falar com Palmirinha para ela buscar um assistente menos comilão, imagine ele fazendo uma amostragem de $100$ pamonhas!
-
-\end{comment}
+Já pelos resultados, vimos que um teste UMP busca minimizar as probabilidades de erros, dessa forma aplicar um teste UMP, quando possível, pode ser muito relevante para a análise que desejamos fazer, principalmente quando um erro pode ser crucial como, por exemplo, nos testes de eficiência para uma nova droga.
 
 \section*{Resposta do desafio}
 
-O leitor mais atento provavelmente deve ter relacionado o problema com uma nota de rodapé que apareceu na seção ``Teste UMP e MLR''. Essencialmente, a solução do desafio proposto é exatamente aplicar aquela ideia, ou seja, dado um nível $\alpha_0$ se encontrarmos $c$ de forma que
+Essencialmente, a solução do desafio proposto é aplicar uma ideia probabilística ao teste. Ou seja, dado um nível $\alpha_0$ se encontrarmos $c$ de forma que
 \[P(r(X) \geq c \mid \theta = \theta_0) = \alpha_0,\]
 
-\noindent está perfeito e temos nosso teste pronto, caso contrário, isto é, não existe $c$ que satisfaça a relação acima, podemos encontrar um valor $c$ tal que
+\noindent está perfeito e temos nosso teste pronto. Caso contrário, isto é, se não existe $c$ que satisfaça a relação acima, podemos encontrar um valor $c$ tal que
 \[P(r(X) \geq c \mid \theta = \theta_0) < \alpha_0 \text{ e } P(r(X) \geq c + 1 \mid \theta = \theta_0) > \alpha_0.\]
 
-Agora, se rejeitarmos $H_0$ caso $r(X) \geq c$, o tamanho do teste será menor que $\alpha_0$, mas rejeitando $H_0$ quando $r(X) \geq c + 1$, o tamanho será maior que $\alpha_0$. Nesse caso, a solução é rejeitar $H_0$ se $r(X) \geq c$ e, se $r(X) = c + 1$, rejeitamos $H_0$ com uma probabilidade $q$, a qual será escolhida de forma que
-\[q\cdot P(r(X) = c + 1 \mid \theta = \theta_0) + P(r(X) \geq c \mid \theta = \theta_0) = \alpha_0,\]
+Agora, nesse momento, rejeitando $H_0$ caso $r(X) \geq c$, o tamanho do teste será menor que $\alpha_0$, mas rejeitando $H_0$ quando $r(X) \geq c + 1$, o tamanho será maior que $\alpha_0$. Então uma solução para termos um teste de tamanho $\alpha_0$ é rejeitar $H_0$ se $r(X) \geq c$ e, se $r(X) = c + 1$, rejeitar $H_0$ com uma probabilidade $q$, a qual será escolhida de forma que
+\[q\cdot P(r(X) = c + 1 \mid \theta = \theta_0) + P(r(X) \geq c \mid \theta = \theta_0) = \alpha_0.\]
 
-\noindent onde conseguimos ter um teste de nível $\alpha_0$.
+Uma ilustração disso é como se, quando $r(X) = c$, a gente lançasse uma ``moeda''\footnote{Moedas aparecendo de novo...} com probabilidade $q$ de sair cara. Tendo o resultado dessa moeda, rejeitamos $H_0$ se o resultado for cara e não rejeitamos se for coroa.
 
 \printbibliography
 
