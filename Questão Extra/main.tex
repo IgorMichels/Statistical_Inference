@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuges]{babel}
+\usepackage{csquotes}
+\usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{dsfont}
+
+\usepackage[backend = biber]{biblatex}
+\addbibresource{ref.bib}
+
+\geometry{left = 3cm, top = 3cm, bottom = 2cm, right = 2cm}
+
+\title{Inferência Estatística \\ Questão Extra}
+\author{Igor Patrício Michels}
+\date{03/12/2020}
+
+\begin{document}
+
+\maketitle
+
+Pequeno arquivo com a resolução da questão 19 da Seção 11.2 do DeGroot \cite{degroot}.
+
+\section*{Resolução}
+
+Pelo enunciado, temos o vetor $\left(X_1, X_2\right)$ com distribuição normal bivariada, com $X_1$ e $X_2$ possuindo mesma média e variância, ou seja, $\mu_1 = \mu_2 = \mu$ e $\sigma^2_1 = \sigma^2_2 = \sigma^2$ e queremos mostrar que
+\[\left|E\left(X_2 \mid x_1\right) - \mu\right| < \left|\mu - x_1\right|, ~\forall x_1.\]
+
+Pelo Teorema 5.10.4 do DeGroot \cite{degroot}, temos que
+\[E\left(X_2 \mid x_1\right) = \mu_2 + \rho\sigma_2\left(\dfrac{x_1 - \mu}{\sigma_1}\right),\]
+
+\noindent substituindo a média e desvio padrão dado, temos que
+\begin{equation*}
+    \begin{split}
+        \left|E\left(X_2 \mid x_1\right) - \mu\right| & = \left|\mu_2 + \rho\sigma_2\left(\dfrac{x_1 - \mu}{\sigma_1}\right) - \mu\right| \\
+        & = \left|\mu + \rho\sigma\left(\dfrac{x_1 - \mu}{\sigma}\right) - \mu\right| \\
+        & = \left|\rho \left(x_1 - \mu\right)\right|.
+    \end{split}
+\end{equation*}
+
+Como $0 < \rho < 1$, segue que
+\[0 < \left|\rho \left(x_1 - \mu\right)\right| < \left|x_1 - \mu\right| = \left|\mu - x_1\right|.\]
+
+\noindent dessa forma conclui-se que
+\[\left|E\left(X_2 \mid x_1\right) - \mu\right| < \left|\mu - x_1\right|.\]
+
+\printbibliography
+
+\end{document}
